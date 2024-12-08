@@ -50,7 +50,7 @@
                             @else
                                 <span class="inline-flex rounded">
                                     <button type="button" title="{{ auth()->user()->name }}"
-                                        class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
                                         {{ auth()->user()->name }}
 
                                         <svg class="ml-2 -mr-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -101,7 +101,7 @@
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded">
                                     <button type="button"
-                                        class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
                                         {{ auth()->user()->currentTeam->name }}
 
                                         <svg class="ml-2 -mr-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -167,10 +167,12 @@
                     {{ __('auth.login') }}
                 </x-nav-link>
 
-                <x-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
-                    <x-ts-icon icon="user-plus" class="inline-block mr-1 size-5" />
-                    {{ __('auth.register') }}
-                </x-nav-link>
+                @if (Route::has('register'))
+                    <x-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
+                        <x-ts-icon icon="user-plus" class="inline-block mr-1 size-5" />
+                        {{ __('auth.register') }}
+                    </x-nav-link>
+                @endif
 
                 <x-set.language />
             @endauth
@@ -188,7 +190,7 @@
         {{-- hamburger --}}
         <div class="flex items-center md:hidden">
             <button @click="open = ! open"
-                class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded hover:text-gray-500 hover:bg-gray-300 focus:outline-none focus:bg-gray-300 focus:text-gray-500">
+                    class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded hover:text-gray-500 hover:bg-gray-300 focus:outline-none focus:bg-gray-300 focus:text-gray-500">
                 <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                     <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -228,10 +230,12 @@
                     {{ __('auth.login') }}
                 </x-nav-link-responsive>
 
-                <x-nav-link-responsive href="{{ route('register') }}" :active="request()->routeIs('register')">
-                    <x-ts-icon icon="user-plus" class="inline-block mr-1 size-5" />
-                    {{ __('auth.register') }}
-                </x-nav-link-responsive>
+                @if (Route::has('register'))
+                    <x-nav-link-responsive href="{{ route('register') }}" :active="request()->routeIs('register')">
+                        <x-ts-icon icon="user-plus" class="inline-block mr-1 size-5" />
+                        {{ __('auth.register') }}
+                    </x-nav-link-responsive>
+                @endif
             </div>
 
             {{-- responsive settings options --}}

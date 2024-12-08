@@ -10,12 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 // -------------------------------------------------------------------------------------------
@@ -121,6 +123,11 @@ class User extends Authenticatable
             ->dontSubmitEmptyLogs();
     }
 
+    public function tapActivity(Activity $activity, string $eventName): void
+    {
+        $activity->team_id = auth()->user()?->currentTeam?->id ?? null;
+    }
+
     /* -------------------------------------------------------------------------------------------- */
     // Accessors & Mutators
     /* -------------------------------------------------------------------------------------------- */
@@ -134,7 +141,7 @@ class User extends Authenticatable
         return $this->hasTeamPermission($this->currentTeam, $permission);
     }
 
-    public function teamsStatistics()
+    public function teamsStatistics(): Collection
     {
         return collect(DB::select('
             SELECT

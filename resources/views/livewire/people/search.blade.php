@@ -19,27 +19,27 @@
                 @if (auth()->user()->hasPermission('person:create'))
                     {{-- add button --}}
                     <x-ts-button href="/people/add" color="emerald" class="text-sm">
-                        <x-ts-icon icon="user-plus" class="size-5"/>
+                        <x-ts-icon icon="user-plus" class="size-5" />
                         {{ __('person.add_person') }}
                     </x-ts-button>
                 @endif
             </div>
 
             <div class="flex-1 flex-grow max-w-full text-end">
-                @if ($this->search)
+                @if ($search)
                     @if (auth()->user()->is_developer)
                         {!! __('app.people_found', [
                             'found' => $people->total(),
                             'total' => $people_db,
                             'scope' => strtoupper(__('team.all_teams')),
-                            'keyword' => $this->search,
+                            'keyword' => $search,
                         ]) !!}
                     @else
                         {!! __('app.people_found', [
                             'found' => $people->total(),
                             'total' => $people_db,
                             'scope' => auth()->user()->currentTeam->name,
-                            'keyword' => $this->search,
+                            'keyword' => $search,
                         ]) !!}
                     @endif
                 @else
@@ -61,8 +61,7 @@
         {{-- search box --}}
         <div class="flex flex-wrap items-start gap-2">
             <div class="flex-1 flex-grow w-full">
-                <x-ts-input wire:model.live.debounce.500ms="search" type="search" icon="search"
-                    hint="{{ __('app.people_search_tip') }}" placeholder="{{ __('app.people_search_placeholder') }}"
+                <x-ts-input wire:model.live.debounce.500ms="search" type="search" icon="search" hint="{{ __('app.people_search_tip') }}" placeholder="{{ __('app.people_search_placeholder') }}"
                     autofocus />
             </div>
 
@@ -87,21 +86,26 @@
         @endif
     </div>
 
-    {{-- people grid --}}
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        @foreach ($people as $person)
-            <livewire:people.person :person="$person" :key="$person->id" />
-        @endforeach
-    </div>
+    @if (count($people) > 0)
+        {{-- people grid --}}
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            @foreach ($people as $person)
+                <livewire:people.person :person="$person" :key="$person->id" />
+            @endforeach
+        </div>
+    @elseif(!$search)
+        {{-- image slider --}}
+        <x-image-slider />
+    @endif
 
     {{-- search help modal --}}
     <x-ts-modal id="search-help" size="6xl" blur>
         <x-slot:title>
-            <x-ts-icon icon="help" class="inline-block"/>{{ __('app.help') }}
+            <x-ts-icon icon="help" class="inline-block" />{{ __('app.help') }}
         </x-slot:title>
 
-        <p>{!! __('app.people_search_help_1') !!}</p><br/>
-        <p>{!! __('app.people_search_help_2') !!}</p><br/>
+        <p>{!! __('app.people_search_help_1') !!}</p><br />
+        <p>{!! __('app.people_search_help_2') !!}</p><br />
         <p>{!! __('app.people_search_help_3') !!}</p>
     </x-ts-modal>
 </div>

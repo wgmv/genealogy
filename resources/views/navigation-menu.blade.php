@@ -33,6 +33,16 @@
                         <x-ts-icon icon="help" class="mr-1 size-5" />
                         {{ __('app.help') }}
                     </x-nav-link>
+
+                    <x-nav-link href="{{ route('terms.show') }}" :active="request()->routeIs('terms.show')">
+                        <x-ts-icon icon="info-circle" class="mr-1 size-5" />
+                        {{ __('app.terms_of_service') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('policy.show') }}" :active="request()->routeIs('policy.show')">
+                        <x-ts-icon icon="info-circle" class="mr-1 size-5" />
+                        {{ __('app.privacy_policy') }}
+                    </x-nav-link>
                 </div>
             </div>
         </div>

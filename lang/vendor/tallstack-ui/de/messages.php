@@ -74,7 +74,7 @@ return [
             'months' => [
                 'january' => 'Januar',
                 'february' => 'Februar',
-                'march' => 'Marsch',
+                'march' => 'März',
                 'april' => 'April',
                 'may' => 'Mai',
                 'june' => 'Juni',

@@ -17,7 +17,7 @@
                 <div class="w-full p-6 mt-6 overflow-hidden prose bg-white rounded shadow-md sm:max-w-5xl">
                     {!! $home !!}
                 </div>
-                <div class="flex-1 flex-grow max-w-full text-center">
+                <div class="flex-1 flex-grow max-w-full text-center mt-6">
                     @if (auth()->user()->hasPermission('person:create'))
                         {{-- add button --}}
                         <x-ts-button href="/people/add" color="emerald" class="text-sm">

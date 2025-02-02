@@ -18,7 +18,7 @@
                     {!! $home !!}
                 </div>
                 <div class="flex-1 flex-grow max-w-full text-center mt-6">
-                    @if (auth()->user()->hasPermission('person:create'))
+                    @if (auth()->user() !== null && auth()->user()->hasPermission('person:create'))
                         {{-- add button --}}
                         <x-ts-button href="/people/add" color="emerald" class="text-sm">
                             <x-ts-icon icon="user-plus" class="size-5" />

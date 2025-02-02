@@ -45,6 +45,7 @@ return [
     'attribute' => 'Attribute',
     'old'       => 'Old',
     'new'       => 'New',
+    'value'     => 'Value',
 
     // Actions
     'add'     => 'Add',
@@ -127,4 +128,7 @@ return [
 
     'people_logbook' => 'People logbook',
     'team_logbook'   => 'Team logbook',
+
+    'under_construction' => 'Under construction',
+    'demonstration'      => 'Demonstration',
 ];

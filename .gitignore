@@ -18,4 +18,6 @@ yarn-error.log
 /.idea
 /.vscode
 deploy-genealogy.sh
+herd.yml
+
 /.env.remote

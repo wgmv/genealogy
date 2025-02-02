@@ -45,6 +45,7 @@ return [
     'attribute' => 'Thuộc tính',
     'old'       => 'Cũ',
     'new'       => 'Mới',
+    'value'     => 'Giá trị',
 
     // Actions
     'add'     => 'Thêm',
@@ -127,4 +128,7 @@ return [
 
     'people_logbook' => 'Nhật ký những người',
     'team_logbook'   => 'Nhật ký đội',
+
+    'under_construction' => 'Đang xây dựng',
+    'demonstration'      => 'Cuộc biểu tình',
 ];

@@ -299,7 +299,7 @@ class Person extends Model implements HasMedia
             $lifetime = null;
         }
 
-        return strval($lifetime); //returns YEAR(dob) - YEAR(dod)
+        return $lifetime ? strval($lifetime) : null; // returns YEAR(dob) - YEAR(dod) or null
     }
 
     protected function getBirthYearAttribute(): ?string
@@ -318,7 +318,7 @@ class Person extends Model implements HasMedia
     protected function getBirthFormattedAttribute(): ?string
     {
         if ($this->dob) {
-            $birth = Carbon::parse($this->dob)->isoFormat('LL');
+            $birth = Carbon::parse($this->dob)->timezone(session('timezone') ?? 'UTC')->isoFormat('LL');
         } elseif ($this->yob) {
             $birth = $this->yob;
         } else {
@@ -331,7 +331,7 @@ class Person extends Model implements HasMedia
     protected function getDeathFormattedAttribute(): ?string
     {
         if ($this->dod) {
-            $dead = Carbon::parse($this->dod)->isoFormat('LL');
+            $dead = Carbon::parse($this->dod)->timezone(session('timezone') ?? 'UTC')->isoFormat('LL');
         } elseif ($this->yod) {
             $dead = $this->yod;
         } else {
@@ -439,7 +439,7 @@ class Person extends Model implements HasMedia
     /* -------------------------------------------------------------------------------------------- */
     // Relations
     /* -------------------------------------------------------------------------------------------- */
-    /* returns TEAM (1 Team) based on team_id  */
+    /* returns TEAM (1 Team) based on team_id */
     public function team(): BelongsTo
     {
         return $this->BelongsTo(Team::class);
@@ -463,7 +463,7 @@ class Person extends Model implements HasMedia
         return $this->belongsTo(Person::class);
     }
 
-    /* returns PARENTS (1 Couple) based on parents_id  */
+    /* returns PARENTS (1 Couple) based on parents_id */
     public function parents(): BelongsTo
     {
         return $this->belongsTo(Couple::class)->with(['person_1', 'person_2']);

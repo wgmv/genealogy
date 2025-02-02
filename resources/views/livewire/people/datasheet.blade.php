@@ -229,12 +229,12 @@
                         <br />
 
                         <x-ts-icon icon="hearts" class="inline-block size-5 text-emerald-600" />
-                        {{ $couple->date_start ? $couple->date_start->isoFormat('LL') : '??' }}
+                        {{ $couple->date_start ? $couple->date_start->timezone(session('timezone') ?? 'UTC')->isoFormat('LL') : '??' }}
 
                         @if ($couple->date_end or $couple->has_ended)
                             <br />
                             <x-ts-icon icon="hearts-off" class="inline-block size-5 text-danger-600 dark:text-danger-400" />
-                            {{ $couple->date_end ? $couple->date_end->isoFormat('LL') : '??' }}
+                            {{ $couple->date_end ? $couple->date_end->timezone(session('timezone') ?? 'UTC')->isoFormat('LL') : '??' }}
                         @endif
                     </td>
                 </tr>
@@ -309,7 +309,9 @@
                 <tr>
                     <td colspan="3">&nbsp;</td>
                     <td>
-                        {{ $file }}
+                        <x-link href="{{ $file->getUrl() }}" target="_blank" title="{{ __('app.download') }}">
+                            {{ $file->file_name }}
+                        </x-link>
                     </td>
                 </tr>
             @endforeach

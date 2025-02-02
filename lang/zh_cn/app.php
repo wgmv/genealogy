@@ -45,6 +45,7 @@ return [
     'attribute' => '属性',
     'old'       => '旧',
     'new'       => '新',
+    'value'     => '价值',
 
     // Actions
     'add'     => '添加',
@@ -127,4 +128,7 @@ return [
 
     'people_logbook' => '人员日志',
     'team_logbook'   => '团队日志',
+
+    'under_construction' => '建设中',
+    'demonstration'      => '示范',
 ];

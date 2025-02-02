@@ -73,4 +73,9 @@ return [
 
     'member'     => 'Miembro',
     'membership' => 'Afiliación',
+
+    'personal_team_caution' => 'Precaución',
+    'personal_team_avoid'   => 'Evite utilizar su equipo personal para crear árboles genealógicos, ya que la propiedad de los equipos personales no se puede transferir a otro miembro.',
+    'personal_team_instead' => 'En su lugar, seleccione un equipo del que ya forme parte o cree uno nuevo específicamente para administrar y compartir árboles genealógicos con otros.',
+    'personal_team_action'  => 'Para crear un nuevo equipo o cambiar a uno existente, use el menú desplegable en la esquina superior derecha.',
 ];

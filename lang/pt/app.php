@@ -39,6 +39,7 @@ return [
     'attribute'                 => 'Atributo',
     'old'                       => 'Velho',
     'new'                       => 'Novo',
+    'value'                     => 'Valor',
     'add'                       => 'Adicionar',
     'cancel'                    => 'Cancelar',
     'create'                    => 'Criar',
@@ -102,4 +103,7 @@ return [
 
     'people_logbook' => 'Diário de bordo de pessoas',
     'team_logbook'   => 'Diário de bordo da equipe',
+
+    'under_construction' => 'Em construção',
+    'demonstration'      => 'Demonstração',
 ];

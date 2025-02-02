@@ -81,4 +81,9 @@ return [
 
     'member'     => 'Lid',
     'membership' => 'Lidmaatschap',
+
+    'personal_team_caution' => 'Let op',
+    'personal_team_avoid'   => 'Vermijd het gebruik van uw persoonlijke team voor het maken van stambomen, aangezien het eigendom van persoonlijke teams niet kan worden overgedragen aan een ander lid.',
+    'personal_team_instead' => 'Selecteer in plaats daarvan een team waar u al deel van uitmaakt of maak een nieuw team speciaal voor het beheren en delen van stambomen met anderen.',
+    'personal_team_action'  => 'Gebruik het keuzemenu in de rechterbovenhoek om een ​​nieuw team aan te maken of naar een bestaand team over te schakelen.',
 ];

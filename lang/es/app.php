@@ -39,6 +39,7 @@ return [
     'attribute'                 => 'Atributo',
     'old'                       => 'Viejo',
     'new'                       => 'Nuevo',
+    'value'                     => 'Valor',
     'add'                       => 'Agregar',
     'cancel'                    => 'Cancelar',
     'create'                    => 'Crear',
@@ -102,4 +103,7 @@ return [
 
     'people_logbook' => 'Libro de registro de personas',
     'team_logbook'   => 'Libro de registro del equipo',
+
+    'under_construction' => 'Bajo construcción',
+    'demonstration'      => 'Demonstratión',
 ];

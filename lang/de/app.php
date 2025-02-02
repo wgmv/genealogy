@@ -45,6 +45,7 @@ return [
     'attribute' => 'Attribuut',
     'old'       => 'Alt',
     'new'       => 'Neu',
+    'value'     => 'Wert',
 
     // Actions
     'add'     => 'Hinzufügen',
@@ -127,4 +128,7 @@ return [
 
     'people_logbook' => 'Personenlogbuch',
     'team_logbook'   => 'Team-Logbuch',
+
+    'under_construction' => 'Im Bau',
+    'demonstration'      => 'Demonstration',
 ];

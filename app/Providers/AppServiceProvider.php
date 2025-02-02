@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Setting;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
@@ -36,10 +38,11 @@ class AppServiceProvider extends ServiceProvider
         $this->configureStrictMode();
         $this->configureLogViewer();
         $this->configureTallStackUiPersonalization();
+        $this->configureDates();
 
         $this->addAboutCommandDetails();
 
-        if (Schema::hasTable('settings')) {
+        if ($this->isDatabaseOnline() && Schema::hasTable('settings')) {
             // Cache the applications settings
             $this->app->singleton('settings', function () {
                 return Cache::rememberForever('settings', function () {
@@ -47,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
                 });
             });
 
-            // enable or disable logging based on application settings
+            // Enable or disable logging based on application settings
             $this->logAllQueries();
             $this->LogAllQueriesSlow();
             $this->logAllQueriesNplusone();
@@ -72,7 +75,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function configureStrictMode(): void
     {
-        Model::shouldBeStrict(! app()->isProduction());
+        Model::shouldBeStrict();
     }
 
     /**
@@ -153,6 +156,14 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
+     * Configure the application's dates.
+     */
+    private function configureDates(): void
+    {
+        Date::use(CarbonImmutable::class);
+    }
+
+    /**
      * Add application details to the About command.
      */
     private function addAboutCommandDetails(): void
@@ -205,6 +216,22 @@ class AppServiceProvider extends ServiceProvider
                     $relation
                 ));
             });
+        }
+    }
+
+    /**
+     * Check if the database connection is available.
+     */
+    protected function isDatabaseOnline(): bool
+    {
+        try {
+            DB::connection()->getPdo();
+
+            return true;
+        } catch (\Exception $e) {
+            // Log the exception if needed for debugging
+            // Log::error('Database connection error: ' . $e->getMessage());
+            return false;
         }
     }
 }

@@ -7,7 +7,9 @@ namespace App\Actions\Jetstream;
 use App\Models\Team;
 use App\Models\User;
 use Closure;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Contracts\AddsTeamMembers;
 use Laravel\Jetstream\Events\AddingTeamMember;
@@ -26,7 +28,15 @@ class AddTeamMember implements AddsTeamMembers
 
         $this->validate($team, $email, $role);
 
-        $newTeamMember = Jetstream::findUserByEmailOrFail($email);
+        try {
+            $newTeamMember = Jetstream::findUserByEmailOrFail($email);
+        } catch (ModelNotFoundException $e) {
+            $newTeamMember = User::create([
+                'name'     => '',
+                'email'    => $email,
+                'password' => Hash::make(uniqid('', true)),
+            ]);
+        }
 
         AddingTeamMember::dispatch($team, $newTeamMember);
 

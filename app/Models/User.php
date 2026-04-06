@@ -5,30 +5,51 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Models\Activity;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Override;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
-// -------------------------------------------------------------------------------------------
-// ATTENTION :
-// -------------------------------------------------------------------------------------------
-// the user attribute "is_developer" should be set directly in the database
-// by the application developer on the one user account needed to manage the whole application
-// including user management and managing all people in all teams
-// -------------------------------------------------------------------------------------------
-
-class User extends Authenticatable
+/**
+ * User Model
+ *
+ * Represents a user in the application with team management capabilities,
+ * activity logging, and two-factor authentication support.
+ *
+ * Note: The 'is_developer' attribute should be set directly in the database
+ * by the application developer for administrative access.
+ *
+ * @property int $id
+ * @property string $firstname
+ * @property string $surname
+ * @property string $email
+ * @property string $password
+ * @property string $language
+ * @property string $timezone
+ * @property bool $is_developer
+ * @property Carbon|null $seen_at
+ * @property Carbon|null $email_verified_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read string|null $name
+ * @property-read string $profile_photo_url
+ * @property-read Team|null $currentTeam
+ */
+final class User extends Authenticatable
     // ---------------------------------------------------------------------------------------
     // class User extends Authenticatable implements MustVerifyEmail
     //
@@ -36,7 +57,10 @@ class User extends Authenticatable
     // ---------------------------------------------------------------------------------------
 {
     use HasApiTokens;
+
+    /** @use HasFactory<\Database\Factories\PersonFactory> */
     use HasFactory;
+
     use HasProfilePhoto;
     use HasTeams;
     use LogsActivity;
@@ -47,7 +71,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'firstname',
@@ -66,7 +90,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -78,12 +102,127 @@ class User extends Authenticatable
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $appends = [
         'name',
         'profile_photo_url',
     ];
+
+    /**
+     * Cache for isDeletable check to avoid repeated queries
+     */
+    private ?bool $isDeletableCache = null;
+
+    /* -------------------------------------------------------------------------------------------- */
+    // Log activities
+    /* -------------------------------------------------------------------------------------------- */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('user_team')
+            ->setDescriptionForEvent(fn (string $eventName): string => __('user.user') . ' ' . __('app.event_' . $eventName))
+            ->logOnly([
+                'firstname', 'surname',
+
+                'email',
+
+                'language', 'timezone',
+
+                'is_developer',
+            ])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
+    }
+
+    public function tapActivity(Activity $activity, string $eventName): void
+    {
+        $activity->team_id = auth()->user()?->currentTeam?->id;
+    }
+
+    /* -------------------------------------------------------------------------------------------- */
+    public function hasPermission(string $permission): bool
+    {
+        return $this->hasTeamPermission($this->currentTeam, $permission);
+    }
+
+    /**
+     * Get statistics for all teams owned by this user
+     *
+     * @return EloquentCollection<int, Team>
+     */
+    public function teamsStatistics(): Collection
+    {
+        /** @var EloquentCollection<int, Team> */
+        return $this->ownedTeams()->withCount(['users as users_count', 'persons as persons_count', 'couples as couples_count'])->get(['id', 'name', 'personal_team']);
+    }
+
+    /**
+     * Determine if this user can be safely deleted
+     *
+     * A user is deletable if they don't have any associated
+     * users, persons, or couples in their teams.
+     */
+    public function isDeletable(): bool
+    {
+        if ($this->isDeletableCache !== null) {
+            return $this->isDeletableCache;
+        }
+
+        $totalAssociations = $this->teamsStatistics()->sum(
+            fn ($team) => $team->users_count + $team->persons_count + $team->couples_count
+        );
+
+        return $this->isDeletableCache = ($totalAssociations === 0);
+    }
+
+    /**
+     * Check if user is a developer with admin privileges
+     */
+    public function isDeveloper(): bool
+    {
+        return $this->is_developer === true;
+    }
+
+    /* -------------------------------------------------------------------------------------------- */
+    // Relations
+    /* -------------------------------------------------------------------------------------------- */
+    /**
+     * Returns ALL USERLOGS (n Userlog)
+     *
+     * @return HasMany<Userlog, $this>
+     */
+    public function userlogs(): HasMany
+    {
+        return $this->hasMany(Userlog::class);
+    }
+
+    /**
+     * Boot method to handle model events
+     */
+    #[Override]
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        // Clear cache when user is updated
+        self::updated(function (User $user): void {
+            $user->isDeletableCache = null;
+        });
+    }
+
+    /* -------------------------------------------------------------------------------------------- */
+    // Accessors & Mutators
+    /* -------------------------------------------------------------------------------------------- */
+    /** @return Attribute<string, never> */
+    protected function name(): Attribute
+    {
+        return Attribute::get(function (): string {
+            $name = Str::of("{$this->firstname} {$this->surname}")->trim()->value();
+
+            return $name === '' ? '' : $name;
+        });
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -93,81 +232,11 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'is_developer'      => 'boolean',
-            'seen_at'           => 'datetime',
+            'email_verified_at'       => 'datetime',
+            'password'                => 'hashed',
+            'is_developer'            => 'boolean',
+            'seen_at'                 => 'datetime',
+            'two_factor_confirmed_at' => 'datetime',
         ];
-    }
-
-    /* -------------------------------------------------------------------------------------------- */
-    // Log activities
-    /* -------------------------------------------------------------------------------------------- */
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->useLogName('user_team')
-            ->setDescriptionForEvent(fn (string $eventName) => __('user.user') . ' ' . __('app.event_' . $eventName))
-            ->logOnly([
-                'firstname',
-                'surname',
-
-                'email',
-
-                'language',
-                'timezone',
-
-                'is_developer',
-            ])
-            ->logOnlyDirty()
-            ->dontSubmitEmptyLogs();
-    }
-
-    public function tapActivity(Activity $activity, string $eventName): void
-    {
-        $activity->team_id = auth()->user()?->currentTeam?->id ?? null;
-    }
-
-    /* -------------------------------------------------------------------------------------------- */
-    // Accessors & Mutators
-    /* -------------------------------------------------------------------------------------------- */
-    protected function getNameAttribute(): ?string
-    {
-        return implode(' ', array_filter([$this->firstname, $this->surname]));
-    }
-
-    public function hasPermission(string $permission): bool
-    {
-        return $this->hasTeamPermission($this->currentTeam, $permission);
-    }
-
-    public function teamsStatistics(): Collection
-    {
-        return collect(DB::select('
-            SELECT
-                `id`, `name`, `personal_team`,
-                (SELECT COUNT(*) FROM `users` INNER JOIN `team_user` ON `users`.`id` = `team_user`.`user_id` WHERE `teams`.`id` = `team_user`.`team_id` AND `users`.`deleted_at` IS NULL) AS `users_count`,
-                (SELECT COUNT(*) FROM `people` WHERE `teams`.`id` = `people`.`team_id` AND `people`.`deleted_at` IS NULL) AS `persons_count`,
-                (SELECT COUNT(*) FROM `couples` WHERE `teams`.`id` = `couples`.`team_id`) AS `couples_count`
-            FROM `teams` WHERE `user_id` = ' . $this->id . ' ORDER BY `name` ASC;
-        '));
-    }
-
-    public function isDeletable(): bool
-    {
-        $total = $this->teamsStatistics()->sum(function ($team) {
-            return $team->users_count + $team->persons_count + $team->couples_count;
-        });
-
-        return $total === 0;
-    }
-
-    /* -------------------------------------------------------------------------------------------- */
-    // Relations
-    /* -------------------------------------------------------------------------------------------- */
-    /* returns ALL USERLOGS (n Userlog) */
-    public function userlogs(): HasMany
-    {
-        return $this->hasMany(Userlog::class);
     }
 }

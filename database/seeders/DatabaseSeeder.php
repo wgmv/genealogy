@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -19,7 +20,8 @@ class DatabaseSeeder extends Seeder
 
         // DEMO DATA
         $this->call([
-            UserAndTeamSeeder::class,
+            UserSeeder::class,
+            TeamSeeder::class,
             DemoSeeder::class,
 
             // TreeSeeder::class,
@@ -29,16 +31,16 @@ class DatabaseSeeder extends Seeder
         // if you want to use the application in production, please remove :
         //
         // - the DEMO DATA seeder call above
+        //
         // - the database seeder /database/seeders/DemoSeeder.php
+        // - the database seeder /database/seeders/TeamSeeder.php
         // - the database seeder /database/seeders/TreeSeeder.php
-        // - the database seeder /database/seeders/UserAndTeamSeeder.php
+        // - the database seeder /database/seeders/UserSeeder.php
         //
         // - the folder /public/xml
-        // - the content of folder /storage/app/public/photos
-        // - the content of folder /storage/app/public/photos-096
-        // - the content of folder /storage/app/public/photos-384
-        // - the content of folder /storage/app/public/profile-photos
-        // - the content of folder /storage/app/backups/genealogy
+        // - the CONTENT of folder /storage/app/public/photos
+        // - the CONTENT of folder /storage/app/public/profile-photos
+        // - the CONTENT of folder /storage/app/backups/genealogy
         // -----------------------------------------------------------------------
     }
 }

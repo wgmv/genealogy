@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class LogAllRequests
+final class LogAllRequests
 {
     /**
      * Handle an incoming request.
@@ -25,7 +25,7 @@ class LogAllRequests
         $timestamp = Carbon::now()->toDateTimeString();
 
         // Collect response content if available
-        $responseData = json_decode($response->getContent(), true, 512) ?? [];
+        $responseData = json_decode((string) $response->getContent(), true, 512) ?? [];
 
         // Prepare log data
         $logData = [
@@ -51,6 +51,8 @@ class LogAllRequests
 
     /**
      * Extract relevant headers from the request.
+     *
+     * @return array<string, string|null>
      */
     private function extractHeaders(Request $request): array
     {
@@ -65,6 +67,8 @@ class LogAllRequests
 
     /**
      * Extract authenticated user data if available.
+     *
+     * @return array<string, mixed>|null
      */
     private function extractUserData(Request $request): ?array
     {
@@ -80,6 +84,8 @@ class LogAllRequests
 
     /**
      * Extract request data while excluding sensitive keys.
+     *
+     * @return array<string, mixed>|null
      */
     private function extractRequestData(Request $request): ?array
     {
@@ -92,6 +98,9 @@ class LogAllRequests
 
     /**
      * Extract specific fields from the response data.
+     *
+     * @param  array<string, mixed>  $responseData
+     * @return array<string, mixed>
      */
     private function extractResponseData(array $responseData): array
     {
@@ -107,6 +116,6 @@ class LogAllRequests
      */
     private function generateLogMessage(string $path): string
     {
-        return str_replace('/', '_', trim($path, '/'));
+        return str_replace('/', '_', mb_trim($path, '/'));
     }
 }

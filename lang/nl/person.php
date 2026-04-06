@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Labels
     'biological'      => 'biologisch',
@@ -67,6 +69,7 @@ return [
     'edit_person'       => 'Editeer persoon',
     'edit_profile'      => 'Editeer profiel',
     'edit_relationship' => 'Editeer relatie',
+    'edit_events'       => 'Editeer gebeurtenissen',
 
     'delete_child'        => 'Kind ontkoppelen',
     'delete_person'       => 'Verwijder persoon',
@@ -108,24 +111,38 @@ return [
     'cemetery_location' => 'Locatie begraafplaats',
 
     // Files
-    'upload_files'     => 'Bestanden uploaden',
-    'files'            => 'Bestanden',
-    'files_saved'      => '[0] Geen bestand bewaard|[1] Bestand bewaard|[2,*] Bestanden bewaard',
-    'file'             => 'Bestand',
-    'file_deleted'     => 'Bestand verwijderd',
-    'update_files_tip' => 'Sleep uw nieuwe bestanden hierheen',
+    'files'                  => 'Bestanden',
+    'files_saved'            => '[0] Geen bestand bewaard|[1] Bestand bewaard|[2,*] Bestanden bewaard',
+    'file'                   => 'Bestand',
+    'file_deleted'           => 'Bestand verwijderd',
+    'upload_files'           => 'Bestanden uploaden',
+    'upload_files_tip'       => 'Sleep uw nieuwe bestanden hierheen ...',
+    'no_valid_files_to_save' => 'Geen geldige bestanden om op te slaan',
+    'files_invalid'          => '{1} :count bestand was ongeldig en is overgeslagen|[2,*] :count bestanden waren ongeldig en zijn overgeslagen',
+    'files_save_failed'      => 'Bestanden opslaan mislukt',
+
+    'upload_accept_types' => 'Toegestaan: :types',
+    'upload_max_size'     => 'Maximale grootte : :max KB',
 
     // Photo
-    'avatar'            => 'Avatar',
-    'edit_photos'       => 'Editeer afbeeldingen',
-    'photo_deleted'     => 'Afbeelding verwijderd',
-    'photo'             => 'Afbeelding',
-    'photos'            => 'Afbeeldingen',
-    'photos_saved'      => '[0] Geen afbeelding bewaard|[1] Afbeelding bewaard|[2,*] Afbeeldingen bewaard',
-    'photos_existing'   => 'Bestaande afbeeldingen',
-    'set_primary'       => 'Als primaire afbeelding instellen',
-    'upload_photos'     => 'Afbeeldingen uploaden',
-    'update_photos_tip' => 'Sleep uw nieuwe afbeeldingen hierheen',
+    'avatar'                      => 'Avatar',
+    'edit_photos'                 => 'Foto’s bewerken',
+    'invalid_image_file_detected' => 'Ongeldig afbeeldingsbestand gedetecteerd',
+    'photo_delete_failed'         => 'Foto verwijderen mislukt',
+    'photo_deleted'               => 'Foto verwijderd',
+    'photo'                       => 'Foto',
+    'photos'                      => 'Foto’s',
+    'photo_not_found'             => 'Foto niet gevonden',
+    'photos_saved'                => '[0] Geen foto’s opgeslagen|[1] Foto opgeslagen|[2,*] :count Foto’s opgeslagen',
+    'photos_save_failed'          => '(Een aantal) foto’s konden niet worden opgeslagen',
+    'photos_existing'             => 'Bestaande foto’s',
+    'photo_set_primary'           => 'Instellen als primair',
+    'photo_set_primary_failed'    => 'Primair instellen mislukt',
+    'photo_is_set_primary'        => 'Nieuwe foto is als primair ingesteld',
+    'upload_photos'               => 'Foto’s uploaden',
+    'upload_photos_tip'           => 'Sleep je nieuwe foto’s hierheen...',
+    'no_valid_photos_to_save'     => 'Geen geldige foto’s om op te slaan',
+    'photos_invalid'              => '{1} :count foto was ongeldig en is overgeslagen|[2,*] :count foto’s waren ongeldig en zijn overgeslagen',
 
     // Messages
     'yod_not_matching_dod' => 'Het Jaar overlijden moet overeenkomen met de Datum overlijden (:value).',
@@ -146,4 +163,23 @@ return [
 
     'not_found' => 'Persoon niet gevonden',
     'use_tab'   => 'Gebruik tab',
+
+    'existing_person_linked_as_father'  => 'Bestaande persoon gekoppeld als vader.',
+    'new_person_linked_as_father'       => 'Nieuwe persoon gekoppeld als vader.',
+    'existing_person_linked_as_mother'  => 'Bestaande persoon gekoppeld als moeder.',
+    'new_person_linked_as_mother'       => 'Nieuwe persoon gekoppeld als moeder.',
+    'existing_person_linked_as_child'   => 'Bestaande persoon gekoppeld als kind.',
+    'new_person_linked_as_child'        => 'Nieuwe persoon gekoppeld als kind.',
+    'existing_person_linked_as_partner' => 'Bestaande persoon gekoppeld als partner.',
+    'new_person_linked_as_parther'      => 'Nieuwe persoon gekoppeld als partner.',
+
+    'family_caution_1' => 'Vader en Moeder mogen alleen worden gebruikt voor de biologische ouders en moeten daarom van verschillend geslacht zijn.',
+    'family_caution_2' => 'Ouders kunnen de biologische ouders zijn, maar ook niet-biologische (homoseksuele of adoptieve) ouders. Laat in dat geval Vader en Moeder gewoon leeg.',
+
+    'parents_id_exclusive' => 'Ouders is exclusief. Als je Ouders instelt, kun je Vader of Moeder niet instellen.',
+
+    'search_similar'       => 'Zoek vergelijkbare personen',
+    'similar_persons'      => 'Vergelijkbare bestaande personen',
+    'no_similar_persons'   => 'Nog geen vergelijkbare personen gevonden — voer enkele namen in en klik op de zoekknop.',
+    'similar_persons_hint' => 'Om te voorkomen dat een persoon meer dan één keer wordt toegevoegd, worden hier vergelijkbare bestaande personen getoond nadat u een voornaam, achternaam, geboortenaam of bijnaam hebt ingevoerd en op de zoekknop hebt geklikt.',
 ];

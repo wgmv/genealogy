@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Labels
     'users_log'        => 'User logbook',
     'users_origin'     => 'User origin',
-    'users_stats'      => 'User statictics',
+    'users_stats'      => 'User statistics',
     'users_by_country' => 'Users by country',
     'visitors'         => 'Visitors',
 
@@ -21,8 +23,8 @@ return [
 
     // Attributes
     'date'         => 'Date',
-    'hour'         => 'Hour',
+    'time'         => 'Time',
     'user'         => 'User',
-    'Country_name' => 'Country',
-    'Country_code' => 'Country code',
+    'country_name' => 'Country',
+    'country_code' => 'Country code',
 ];

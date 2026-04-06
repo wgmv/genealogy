@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Labels
     'users_log'        => 'Sổ ghi chép người dùng',
@@ -21,8 +23,8 @@ return [
 
     // Attributes
     'date'         => 'Ngày',
-    'hour'         => 'Giờ',
+    'time'         => 'Thời gian',
     'user'         => 'Người dùng',
-    'Country_name' => 'Quốc gia',
-    'Country_code' => 'Mã quốc gia',
+    'country_name' => 'Quốc gia',
+    'country_code' => 'Mã quốc gia',
 ];

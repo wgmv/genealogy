@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Menus
     'about'            => 'About',
@@ -15,12 +17,18 @@ return [
     'log_viewer'       => 'Log Viewer',
 
     // Labels
+    'all'               => 'All',
+    'filter'            => 'Filter',
     'api_tokens'        => 'API tokens',
     'attention'         => 'Attention',
+    'circa'             => 'circa',
     'contact'           => 'Contact',
     'datasheet'         => 'Datasheet',
+    'date'              => 'Date',
     'death'             => 'Death',
     'documentation'     => 'Documentation',
+    'error'             => 'Error',
+    'warning'           => 'Warning',
     'family_chart'      => 'Family chart',
     'female'            => 'Female',
     'history'           => 'History',
@@ -30,9 +38,13 @@ return [
     'nothing_available' => 'Nothing available',
     'nothing_found'     => 'Nothing found',
     'nothing_recorded'  => 'Nothing recorded yet.',
+    'place'             => 'Place',
     'search'            => 'Search',
+    'timeline'          => 'Timeline',
+    'year'              => 'Year',
     'yes'               => 'Yes',
     'no'                => 'No',
+    'unknown'           => 'Unknown',
 
     'created_at' => 'Created at',
     'updated_at' => 'Updated at',
@@ -50,10 +62,13 @@ return [
     // Actions
     'add'     => 'Add',
     'cancel'  => 'Cancel',
+    'clear'   => 'Clear',
     'create'  => 'Create',
     'created' => 'Created',
+    'update'  => 'Update',
 
-    'download' => 'Download',
+    'download'    => 'Download',
+    'downloading' => 'The download is started.',
 
     'move_down' => 'Move down',
     'move_up'   => 'Move up',
@@ -64,11 +79,14 @@ return [
 
     'save'   => 'Save',
     'saved'  => 'Saved',
+    'saving' => 'Saving',
     'select' => 'Select',
     'show'   => 'Show',
 
     // Deletion confirm attributes
     'abort_no'            => 'No, abort',
+    'are_you_sure'        => 'Are you sure?',
+    'confirm'             => 'Confirm',
     'delete'              => 'Delete',
     'deleted'             => 'is deleted',
     'delete_yes'          => 'Yes, delete',
@@ -110,7 +128,7 @@ return [
 
     'people_search_help_1' => 'The system wil look up <b class="text-emerald-600">every single word</b> in the search box in the attributes <b class="text-emerald-600">surname</b>, <b class="text-emerald-600">firstname</b>, <b class="text-emerald-600">birthname</b> and <b class="text-emerald-600">nickname</b>.',
     'people_search_help_2' => 'Begin the search string with <b class="text-emerald-600">%</b> if you want to search parts of names, for instance : <b class="text-emerald-600">%Jr</b>.<br/>Be aware this kinds of searches are slower.',
-    'people_search_help_3' => 'If a surname, firstname, birthname or nickname containes any <b class="text-emerald-600">spaces</b>, enclose the name in double quoutes,<br/>for instance : <b class="text-emerald-600">"John Jr." Kennedy</b>.',
+    'people_search_help_3' => 'If a surname, firstname, birthname or nickname containes any <b class="text-emerald-600">spaces</b>, enclose the name in double quoutes,<br/>for instance : <b class="text-emerald-600">"John Fitzgerald Jr." Kennedy</b>.',
 
     'unauthorized_access' => 'Unauthorized access.',
 
@@ -131,4 +149,19 @@ return [
 
     'under_construction' => 'Under construction',
     'demonstration'      => 'Demonstration',
+
+    'password_generator'   => 'Password Generator',
+    'password_length'      => 'Password length',
+    'use_numbers'          => 'Use numbers',
+    'use_symbols'          => 'Use symbols',
+    'generate'             => 'Generate',
+    'generating'           => 'Generating',
+    'copy_to_clipboard'    => 'Copy to clipboard',
+    'copied_to_clipboard'  => 'Copied to clipboard!',
+    'password_very_weak'   => 'Very weak',
+    'password_weak'        => 'Weak',
+    'password_moderate'    => 'Moderate',
+    'password_strong'      => 'Strong',
+    'password_very_strong' => 'Very strong',
+    'check_breach'         => 'Check if your email address is in a data breach',
 ];

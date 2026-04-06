@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'all_teams'     => 'Tất cả các đội',
     'cancel'        => 'Hủy',
@@ -18,6 +20,17 @@ return [
     'team_personal' => 'Đội cá nhân',
     'teams'         => 'Các đội',
     'users'         => 'Người dùng',
+
+    'team_overview'                   => 'Tổng quan đội',
+    'click_to_view_members'           => 'Nhấp để xem tất cả thành viên đội',
+    'click_to_view_persons'           => 'Nhấp để xem tất cả thành viên gia đình',
+    'click_to_view_couples'           => 'Nhấp để xem tất cả các mối quan hệ',
+    'no_results_found'                => 'Không tìm thấy kết quả',
+    'try_adjusting_your_search_terms' => 'Hãy thử điều chỉnh các từ khóa tìm kiếm của bạn',
+    'showing'                         => 'Hiển thị',
+    'of'                              => 'của',
+    'reset_filter'                    => 'Đặt lại bộ lọc',
+    'filtered_by'                     => 'Được lọc theo',
 
     // Messages
     'team_details'    => 'Chi tiết đội',
@@ -52,10 +65,10 @@ return [
     'user_already_invited' => 'Người dùng này đã được mời tham gia đội.',
     'user_not_leave'       => 'Bạn không thể rời khỏi đội mà bạn đã tạo.',
 
-    'delete_team_meassage' => 'Xóa đội vĩnh viễn.',
-    'delete_team_text'     => 'Khi một đội bị xóa, tất cả tài nguyên và dữ liệu của nó sẽ bị xóa vĩnh viễn. Trước khi xóa đội này, vui lòng tải xuống bất kỳ dữ liệu hoặc thông tin nào liên quan đến đội mà bạn muốn giữ lại.',
-    'delete_team_sure'     => 'Bạn có chắc chắn muốn xóa đội này không? Khi một đội bị xóa, tất cả tài nguyên và dữ liệu của nó sẽ bị xóa vĩnh viễn.',
-    'can_not_delete'       => 'Không thể xóa nhóm này vì nó chứa dữ liệu hợp lệ.',
+    'delete_team_message' => 'Xóa đội vĩnh viễn.',
+    'delete_team_text'    => 'Khi một đội bị xóa, tất cả tài nguyên và dữ liệu của nó sẽ bị xóa vĩnh viễn. Trước khi xóa đội này, vui lòng tải xuống bất kỳ dữ liệu hoặc thông tin nào liên quan đến đội mà bạn muốn giữ lại.',
+    'delete_team_sure'    => 'Bạn có chắc chắn muốn xóa đội này không? Khi một đội bị xóa, tất cả tài nguyên và dữ liệu của nó sẽ bị xóa vĩnh viễn.',
+    'can_not_delete'      => 'Không thể xóa nhóm này vì nó chứa dữ liệu hợp lệ.',
 
     'been_invited'               => 'Bạn đã được mời tham gia đội :team!',
     'no_account'                 => 'Nếu bạn chưa có tài khoản, bạn có thể tạo một tài khoản bằng cách nhấp vào nút bên dưới. Sau khi tạo tài khoản, bạn có thể nhấp vào nút chấp nhận lời mời trong email này để chấp nhận lời mời tham gia đội:',
@@ -66,6 +79,7 @@ return [
     'discard'                    => 'Nếu bạn không mong đợi nhận được lời mời tham gia đội này, bạn có thể bỏ qua email này.',
 
     'transfer'           => 'Chuyển khoản',
+    'transfer_failed'    => 'Chuyển giao thất bại',
     'transfer_ownership' => 'Chuyển quyền sở hữu',
     'transfer_message'   => 'Chuyển quyền sở hữu của nhóm này cho thành viên khác trong nhóm.',
     'select_new_owner'   => 'Chọn một thành viên nhóm hiện có làm chủ sở hữu nhóm mới.',

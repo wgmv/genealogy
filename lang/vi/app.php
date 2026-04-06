@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Menus
     'about'            => 'Giới thiệu',
@@ -15,13 +17,19 @@ return [
     'log_viewer'       => 'Trình xem nhật ký',
 
     // Labels
-    'api_tokens'        => 'Mã thông báo API',
+    'all'               => 'Tất cả',
+    'filter'            => 'Bộ lọc',
+    'api_tokens'        => 'Mã API',
     'attention'         => 'Chú ý',
+    'circa'             => 'khoảng',
     'contact'           => 'Liên hệ',
     'datasheet'         => 'Bảng dữ liệu',
-    'death'             => 'Cái chết',
+    'date'              => 'Ngày',
+    'death'             => 'Qua đời',
     'documentation'     => 'Tài liệu',
-    'family_chart'      => 'Biểu đồ gia đình',
+    'error'             => 'Lỗi',
+    'warning'           => 'Cảnh báo',
+    'family_chart'      => 'Sơ đồ gia đình',
     'female'            => 'Nữ',
     'history'           => 'Lịch sử',
     'male'              => 'Nam',
@@ -30,9 +38,13 @@ return [
     'nothing_available' => 'Không có gì khả dụng',
     'nothing_found'     => 'Không tìm thấy',
     'nothing_recorded'  => 'Chưa có gì được ghi lại.',
+    'place'             => 'Địa điểm',
     'search'            => 'Tìm kiếm',
+    'timeline'          => 'Dòng thời gian',
+    'year'              => 'Năm',
     'yes'               => 'Có',
     'no'                => 'Không',
+    'unknown'           => 'Không xác định',
 
     'created_at' => 'Được tạo vào',
     'updated_at' => 'Được cập nhật vào',
@@ -50,10 +62,13 @@ return [
     // Actions
     'add'     => 'Thêm',
     'cancel'  => 'Hủy',
+    'clear'   => 'Xóa',
     'create'  => 'Tạo',
     'created' => 'Đã tạo',
+    'update'  => 'Cập nhật',
 
-    'download' => 'Tải xuống',
+    'download'    => 'Tải xuống',
+    'downloading' => 'Quá trình tải xuống đã bắt đầu.',
 
     'move_down' => 'Di chuyển xuống',
     'move_up'   => 'Di chuyển lên',
@@ -64,11 +79,14 @@ return [
 
     'save'   => 'Lưu',
     'saved'  => 'Đã lưu',
+    'saving' => 'Đang lưu',
     'select' => 'Chọn',
     'show'   => 'Hiển thị',
 
     // Deletion confirm attributes
     'abort_no'            => 'Không, hủy bỏ',
+    'are_you_sure'        => 'Bạn có chắc không?',
+    'confirm'             => 'Xác nhận',
     'delete'              => 'Xóa',
     'deleted'             => 'đã bị xóa',
     'delete_yes'          => 'Có, xóa',
@@ -110,7 +128,7 @@ return [
 
     'people_search_help_1' => 'Hệ thống sẽ tìm kiếm <b class="text-emerald-600">từng từ một</b> trong hộp tìm kiếm trong các thuộc tính <b class="text-emerald-600">họ</b>, <b class="text-emerald-600">tên</b>, <b class="text-emerald-600">tên khai sinh</b> và <b class="text-emerald-600">biệt danh</b>.',
     'people_search_help_2' => 'Bắt đầu chuỗi tìm kiếm với <b class="text-emerald-600">%</b> nếu bạn muốn tìm kiếm các phần của tên, ví dụ: <b class="text-emerald-600">%Jr</b>.<br/>Lưu ý rằng các loại tìm kiếm này sẽ chậm hơn.',
-    'people_search_help_3' => 'Nếu một họ, tên, tên khai sinh hoặc biệt danh có bất kỳ <b class="text-emerald-600">khoảng trắng</b>, hãy đặt tên trong dấu ngoặc kép,<br/>ví dụ: <b class="text-emerald-600">"John Jr." Kennedy</b>.',
+    'people_search_help_3' => 'Nếu một họ, tên, tên khai sinh hoặc biệt danh có bất kỳ <b class="text-emerald-600">khoảng trắng</b>, hãy đặt tên trong dấu ngoặc kép,<br/>ví dụ: <b class="text-emerald-600">"John Fitzgerald Jr." Kennedy</b>.',
 
     'unauthorized_access' => 'Truy cập không được phép.',
 
@@ -131,4 +149,19 @@ return [
 
     'under_construction' => 'Đang xây dựng',
     'demonstration'      => 'Cuộc biểu tình',
+
+    'password_generator'   => 'Trình tạo mật khẩu',
+    'password_length'      => 'Độ dài mật khẩu',
+    'use_numbers'          => 'Sử dụng số',
+    'use_symbols'          => 'Sử dụng ký hiệu',
+    'generate'             => 'Tạo',
+    'generating'           => 'Đang tạo',
+    'copy_to_clipboard'    => 'Sao chép vào bảng tạm',
+    'copied_to_clipboard'  => 'Đã sao chép vào bảng tạm!',
+    'password_very_weak'   => 'Rất yếu',
+    'password_weak'        => 'Yếu',
+    'password_moderate'    => 'Trung bình',
+    'password_strong'      => 'Mạnh',
+    'password_very_strong' => 'Rất mạnh',
+    'check_breach'         => 'Kiểm tra xem địa chỉ email của bạn có nằm trong vụ rò rỉ dữ liệu không',
 ];

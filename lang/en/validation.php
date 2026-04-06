@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -164,7 +166,8 @@ return [
     */
 
     'surname.required_without'   => 'When adding a NEW person, a surname is required.',
-    'person_id.required_without' => 'When adding an EXISTING person, select a person.',
+    'sex.required_without'       => 'When adding a NEW person, a sex must be defined.',
+    'person_id.required_without' => 'When adding an EXISTING person, a person must be selected.',
 
     /*
     |--------------------------------------------------------------------------

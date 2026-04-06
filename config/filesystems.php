@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -29,72 +31,11 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root'   => storage_path('app'),
             'throw'  => false,
-        ],
-
-        // backup disk
-        env('BACKUP_DISK', 'backups') => [
-            'driver' => 'local',
-            'root'   => storage_path('app/' . env('BACKUP_DISK', 'backups')),
-            'throw'  => false,
-        ],
-
-        // photos
-        'photos' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/photos'),
-            'url'        => env('APP_URL') . '/storage/photos',
-            'visibility' => 'public',
-            'throw'      => false,
-        ],
-
-        // photos-096
-        'photos-096' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/photos-096'),
-            'url'        => env('APP_URL') . '/storage/photos-096',
-            'visibility' => 'public',
-            'throw'      => false,
-        ],
-
-        // photos-384
-        'photos-384' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/photos-384'),
-            'url'        => env('APP_URL') . '/storage/photos-384',
-            'visibility' => 'public',
-            'throw'      => false,
-        ],
-
-        // files
-        'files' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/files'),
-            'url'        => env('APP_URL') . '/storage/files',
-            'visibility' => 'public',
-            'throw'      => false,
-        ],
-
-        // imports
-        'imports' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/imports'),
-            'url'        => env('APP_URL') . '/storage/imports',
-            'visibility' => 'public',
-            'throw'      => false,
-        ],
-
-        // profile-pictures
-        'profiles' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/profiles'),
-            'url'        => env('APP_URL') . '/storage/profiles',
-            'visibility' => 'public',
-            'throw'      => false,
+            'serve'  => true,
         ],
 
         'public' => [
@@ -117,6 +58,43 @@ return [
             'throw'                   => false,
         ],
 
+        // --------------------------------------------------------------------------
+        // CUSTOM STORAGE
+        // --------------------------------------------------------------------------
+        // backup disk
+        env('BACKUP_DISK', 'backups') => [
+            'driver' => 'local',
+            'root'   => storage_path('app/' . env('BACKUP_DISK', 'backups')),
+            'throw'  => false,
+        ],
+
+        // files
+        'files' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/files'),
+            'url'        => env('APP_URL') . '/storage/files',
+            'visibility' => 'public',
+            'throw'      => false,
+        ],
+
+        // photos
+        'photos' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/photos'),
+            'url'        => env('APP_URL') . '/storage/photos',
+            'visibility' => 'public',
+            'throw'      => false,
+        ],
+
+        // profile-pictures
+        'profiles' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/profiles'),
+            'url'        => env('APP_URL') . '/storage/profiles',
+            'visibility' => 'public',
+            'throw'      => false,
+        ],
+        // --------------------------------------------------------------------------
     ],
 
     /*

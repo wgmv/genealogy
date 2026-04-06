@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Menus
     'about'            => 'Über',
@@ -15,24 +17,34 @@ return [
     'log_viewer'       => 'Protokollbetrachter',
 
     // Labels
+    'all'               => 'Alle',
+    'filter'            => 'Filter',
     'api_tokens'        => 'API-Token',
     'attention'         => 'Achtung',
+    'circa'             => 'ca.',
     'contact'           => 'Kontakt',
     'datasheet'         => 'Datenblatt',
+    'date'              => 'Datum',
     'death'             => 'Tod',
-    'documentation'     => 'Documentation',
-    'family_chart'      => 'Familiendiagramm',
+    'documentation'     => 'Dokumentation',
+    'error'             => 'Fehler',
+    'warning'           => 'Warnung',
+    'family_chart'      => 'Familienstammbaum',
     'female'            => 'Weiblich',
-    'history'           => 'Geschichte',
+    'history'           => 'Verlauf',
     'male'              => 'Männlich',
     'manage_account'    => 'Konto verwalten',
     'my_profile'        => 'Mein Profil',
     'nothing_available' => 'Nichts verfügbar',
     'nothing_found'     => 'Nichts gefunden',
     'nothing_recorded'  => 'Noch nichts erfasst.',
-    'search'            => 'Suche',
+    'place'             => 'Ort',
+    'search'            => 'Suchen',
+    'timeline'          => 'Zeitleiste',
+    'year'              => 'Jahr',
     'yes'               => 'Ja',
     'no'                => 'Nein',
+    'unknown'           => 'Unbekannt',
 
     'created_at' => 'Erstellt am',
     'updated_at' => 'Aktualisiert am',
@@ -50,10 +62,13 @@ return [
     // Actions
     'add'     => 'Hinzufügen',
     'cancel'  => 'Abbrechen',
+    'clear'   => 'Löschen',
     'create'  => 'Erstellen',
     'created' => 'Erstellt',
+    'update'  => 'Aktualisieren',
 
-    'download' => 'Herunterladen',
+    'download'    => 'Herunterladen',
+    'downloading' => 'Der Download wird gestartet.',
 
     'move_down' => 'Runter',
     'move_up'   => 'Hoch',
@@ -64,11 +79,14 @@ return [
 
     'save'   => 'Speichern',
     'saved'  => 'Gespeichert',
+    'saving' => 'Speichern',
     'select' => 'Auswählen',
     'show'   => 'Zeigen',
 
     // Deletion confirm attributes
     'abort_no'            => 'Nein, abbrechen',
+    'are_you_sure'        => 'Sind sie sicher?',
+    'confirm'             => 'Bestätigen',
     'delete'              => 'Löschen',
     'deleted'             => 'wurde gelöscht',
     'delete_yes'          => 'Ja, löschen',
@@ -110,7 +128,7 @@ return [
 
     'people_search_help_1' => 'Das System sucht <b class="text-emerald-600">jedes einzelne Wort</b> im Suchfeld in den Attributen <b class="text-emerald-600">Nachname</b>, <b class="text-emerald-600">Vorname</b>, <b class="text-emerald-600">Geburtsname</b> und <b class="text-emerald-600">Spitzname</b>.',
     'people_search_help_2' => 'Beginnen Sie die Suchzeichenfolge mit <b class="text-emerald-600">%</b>, wenn Sie nach Teilen von Namen suchen möchten, zum Beispiel : <b class="text-emerald-600">%Jr</b>.<br/>Beachten Sie, dass diese Art von Suche langsamer ist.',
-    'people_search_help_3' => 'Wenn ein Nachname, Vorname, Geburtsname oder Spitzname <b class="text-emerald-600">Leerzeichen</b> enthält, schließen Sie den Namen in doppelte Anführungszeichen ein,<br/>zum Beispiel: <b class="text-emerald-600">"John Jr." Kennedy</b>.',
+    'people_search_help_3' => 'Wenn ein Nachname, Vorname, Geburtsname oder Spitzname <b class="text-emerald-600">Leerzeichen</b> enthält, schließen Sie den Namen in doppelte Anführungszeichen ein,<br/>zum Beispiel: <b class="text-emerald-600">"John Fitzgerald Jr." Kennedy</b>.',
 
     'unauthorized_access' => 'Unautorisierter Zugriff',
 
@@ -131,4 +149,19 @@ return [
 
     'under_construction' => 'Im Bau',
     'demonstration'      => 'Demonstration',
+
+    'password_generator'   => 'Passwortgenerator',
+    'password_length'      => 'Passwortlänge',
+    'use_numbers'          => 'Zahlen verwenden',
+    'use_symbols'          => 'Symbole verwenden',
+    'generate'             => 'Generieren',
+    'generating'           => 'Wird generiert',
+    'copy_to_clipboard'    => 'In Zwischenablage kopieren',
+    'copied_to_clipboard'  => 'In Zwischenablage kopiert!',
+    'password_very_weak'   => 'Sehr schwach',
+    'password_weak'        => 'Schwach',
+    'password_moderate'    => 'Mittel',
+    'password_strong'      => 'Stark',
+    'password_very_strong' => 'Sehr stark',
+    'check_breach'         => 'Prüfen Sie, ob Ihre E-Mail-Adresse in einem Datenleck enthalten ist',
 ];

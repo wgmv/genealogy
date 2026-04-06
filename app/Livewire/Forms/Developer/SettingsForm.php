@@ -6,7 +6,7 @@ namespace App\Livewire\Forms\Developer;
 
 use Livewire\Form;
 
-class SettingsForm extends Form
+final class SettingsForm extends Form
 {
     // -----------------------------------------------------------------------
     public bool $logAllQueries = false;
@@ -18,7 +18,10 @@ class SettingsForm extends Form
     public bool $logAllQueriesNPlusOne = false;
 
     // -----------------------------------------------------------------------
-    public function rules(): array
+    /**
+     * @return array<string, array<int, string>>
+     */
+    protected function rules(): array
     {
         return $rules = [
             'log_all_queries'                => ['boolean'],
@@ -28,12 +31,18 @@ class SettingsForm extends Form
         ];
     }
 
-    public function messages(): array
+    /**
+     * @return array<string, string>
+     */
+    protected function messages(): array
     {
         return [];
     }
 
-    public function validationAttributes(): array
+    /**
+     * @return array<string, string>
+     */
+    protected function validationAttributes(): array
     {
         return [
             'log_all_queries'                => __('settings.log_all_queries'),

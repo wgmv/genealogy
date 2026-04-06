@@ -37,8 +37,8 @@
 
                         <div class="ms-3">
                             <div class="text-sm text-gray-600">
-                                {{ $session->agent->platform() ? $session->agent->platform() : __('user.unknown') }} -
-                                {{ $session->agent->browser() ? $session->agent->browser() : __('user.unknown') }}
+                                {{ $session->agent->platform() ? $session->agent->platform() : __('app.unknown') }} -
+                                {{ $session->agent->browser() ? $session->agent->browser() : __('app.unknown') }}
                             </div>
 
                             <div>
@@ -63,7 +63,7 @@
                 {{ __('user.log_out') }}
             </x-ts-button>
 
-            <x-action-message class="p-3 ml-3 rounded bg-success-200 text-emerald-600" on="loggedOut">
+            <x-action-message class="p-3 ml-3 rounded-sm bg-emerald-200 text-emerald-600" on="loggedOut">
                 {{ __('user.done') }}
             </x-action-message>
         </div>

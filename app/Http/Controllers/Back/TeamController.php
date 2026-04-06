@@ -9,41 +9,51 @@ use App\Models\Team;
 use App\Models\User;
 use App\Notifications\OwnershipTransferred;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Gate;
 use TallStackUi\Traits\Interactions;
 
-class TeamController extends Controller
+final class TeamController extends Controller
 {
     use Interactions;
 
-    public function team(): View
+    public function transferOwnership(Request $request, Team $team): RedirectResponse
     {
-        return view('back.team');
-    }
+        // -----------------------------------------------------------------------
+        // Authorization — three independent guards, all must pass.
+        // -----------------------------------------------------------------------
 
-    public function teamLog(): View
-    {
-        return view('back.teamlog');
-    }
+        // 1. Only the current team owner may initiate a transfer.
+        Gate::authorize('update', $team);
 
-    public function peopleLog(): View
-    {
-        return view('back.peoplelog');
-    }
+        // 2. Personal teams cannot be transferred.
+        if ($team->personal_team) {
+            abort(403, 'Personal teams cannot be transferred.');
+        }
 
-    public function transferOwnership(Request $request, Team $team)
-    {
         $validated = $request->validate([
             'new_owner_id' => ['required', 'exists:users,id'],
         ]);
 
+        /** @var User $currentOwner */
         $currentOwner = $team->owner;
-        $newOwner     = User::findOrFail($validated['new_owner_id']);
+        /** @var User $newOwner */
+        $newOwner = User::findOrFail($validated['new_owner_id']);
+
+        // 3. The designated new owner must already be a member of this team.
+        if (! $newOwner->belongsToTeam($team)) {
+            abort(422, 'The new owner must already be a member of this team.');
+        }
+
+        /** @var User $currentOwner */
+        $currentOwner = $team->owner;
+        /** @var User $newOwner */
+        $newOwner = User::findOrFail($validated['new_owner_id']);
 
         try {
-            DB::transaction(function () use ($team, $currentOwner, $newOwner) {
+            DB::transaction(function () use ($team, $currentOwner, $newOwner): void {
                 $currentOwner_as_teamUser = $team->users()->find($currentOwner->id);  // `find()` retrieves the user with membership
 
                 if (! $currentOwner_as_teamUser) {
@@ -51,8 +61,8 @@ class TeamController extends Controller
                     $team->users()->attach($currentOwner->id, [
                         'role' => 'administrator',
                     ]);
-                } elseif (empty($currentOwner_as_teamUser->membership->role)) {
-                    // If the membership entry exists but no role is set, update it
+                } elseif (empty($currentOwner_as_teamUser->pivot->role)) {
+                    // If the pivot entry exists but no role is set, update it
                     $team->users()->updateExistingPivot($currentOwner->id, [
                         'role' => 'administrator',
                     ]);
@@ -85,9 +95,9 @@ class TeamController extends Controller
                 // Notify the new owner synchronously
                 $newOwner->notify(new OwnershipTransferred($team));
 
-                $this->toast()->success(__('team.transfer'), __('team.transferred_to') . $newOwner->name . '.')->flash()->send();
+                $this->toast()->success(__('team.transfer'), __('team.transferred_to') . e($newOwner->name) . '.')->flash()->send();
             });
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->toast()->error(__('team.transfer'), __('team.transfer_failed'))->flash()->send();
         }
 

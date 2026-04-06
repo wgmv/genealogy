@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Labels
     'users_log'        => 'Benutzerprotokoll',
@@ -21,8 +23,8 @@ return [
 
     // Attributes
     'date'         => 'Datum',
-    'hour'         => 'Stunde',
+    'time'         => 'Zeit',
     'user'         => 'Benutzer',
-    'Country_name' => 'Land',
-    'Country_code' => 'Landesvorwahl',
+    'country_name' => 'Land',
+    'country_code' => 'Landesvorwahl',
 ];

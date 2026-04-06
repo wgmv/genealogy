@@ -1,42 +1,72 @@
 {
-    "name": "laravel/laravel",
+    "name": "mgeurts/genealogy",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A free and open-source family tree application to record family members and their relationships.",
     "keywords": [
-        "laravel",
-        "framework"
+      "php",
+      "laravel",
+      "livewire",
+      "tailwindcss",
+      "tallstack",
+      "genealogy",
+      "family-tree",
+      "ancestry",
+      "gedcom",
+      "lineage",
+      "pedigree",
+      "open-source",
+      "family-history",
+      "laravel-application"
     ],
+    "homepage": "https://github.com/MGeurts/genealogy",
+    "support": {
+      "source": "https://github.com/MGeurts/genealogy",
+      "demo": "https://genealogy.kreaweb.be",
+      "docs": "https://genealogy.kreaweb.be/help"
+    },
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Marc Geurts",
+            "email": "info@kreaweb.be",
+            "role": "Developer"
+        }
+    ],
     "require": {
-        "php": "^8.3",
-        "alisalehi/laravel-lang-files-translator": "^1.0",
-        "filament/tables": "^3.2",
-        "intervention/image": "^3.9",
-        "korridor/laravel-has-many-merged": "^1.1",
-        "laravel/framework": "^11.28",
-        "laravel/jetstream": "^5.3",
-        "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.10",
-        "larswiegers/laravel-translations-checker": "^0.9.2",
-        "livewire/livewire": "^3.5",
-        "opcodesio/log-viewer": "^3.11",
-        "spatie/laravel-activitylog": "^4.8",
-        "spatie/laravel-backup": "^9.1",
-        "spatie/laravel-medialibrary": "^11.9",
-        "stefangabos/world_countries": "^2.9",
-        "stevebauman/location": "^7.3",
-        "tallstackui/tallstackui": "^1.35"
+        "php": "^8.4",
+        "filament/tables": "^5.4",
+        "intervention/image": "^4.0",
+        "korridor/laravel-has-many-merged": "^1.2",
+        "laravel/framework": "^12.56",
+        "laravel/jetstream": "^5.5",
+        "laravel/sanctum": "^4.3",
+        "laravel/tinker": "^3.0",
+        "livewire/livewire": "^4.2",
+        "opcodesio/log-viewer": "^3.24",
+        "secondnetwork/blade-tabler-icons": "^3.41",
+        "spatie/laravel-activitylog": "^5.0",
+        "spatie/laravel-backup": "^10.2",
+        "spatie/laravel-medialibrary": "^11.21",
+        "stefangabos/world_countries": "^3.3",
+        "stevebauman/location": "^7.6",
+        "tallstackui/tallstackui": "^3.1"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.14",
-        "barryvdh/laravel-ide-helper": "^3.1",
-        "fakerphp/faker": "^1.23",
-        "laravel/pint": "^1.18",
-        "laravel/sail": "^1.36",
+        "alisalehi/laravel-lang-files-translator": "^1.0",
+        "barryvdh/laravel-debugbar": "^4.2",
+        "barryvdh/laravel-ide-helper": "^3.7",
+        "fakerphp/faker": "^1.24",
+        "larastan/larastan": "^3.9",
+        "laravel/boost": "^2.4",
+        "laravel/pail": "^1.2",
+        "laravel/pint": "^1.29",
+        "laravel/sail": "^1.55",
+        "larswiegers/laravel-translations-checker": "^0.9",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.5",
-        "phpunit/phpunit": "^11.4",
-        "spatie/laravel-ignition": "^2.8"
+        "nunomaduro/collision": "^8.9",
+        "pestphp/pest": "^4.4",
+        "pestphp/pest-plugin-livewire": "^4.1",
+        "spatie/laravel-ignition": "^2.12"
     },
     "autoload": {
         "psr-4": {
@@ -55,9 +85,9 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade",
-            "@php artisan tallstackui:setup-icon --force --ansi",
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan optimize:clear",
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan ide-helper:generate"
@@ -69,6 +99,25 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install",
+            "npm run build"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@php artisan test"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ]
     },
     "extra": {

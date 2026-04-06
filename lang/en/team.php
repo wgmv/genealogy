@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'all_teams'     => 'All teams',
     'cancel'        => 'Cancel',
@@ -18,6 +20,17 @@ return [
     'team_personal' => 'Personal team',
     'teams'         => 'Teams',
     'users'         => 'Users',
+
+    'team_overview'                   => 'Team overview',
+    'click_to_view_members'           => 'Click to view all team members',
+    'click_to_view_persons'           => 'Click to view all family members',
+    'click_to_view_couples'           => 'Click to view all relationships',
+    'no_results_found'                => 'No results found',
+    'try_adjusting_your_search_terms' => 'Try adjusting your search terms',
+    'showing'                         => 'Showing',
+    'of'                              => 'of',
+    'reset_filter'                    => 'Reset filter',
+    'filtered_by'                     => 'Filtered by',
 
     // Messages
     'team_details'    => 'Team Details',
@@ -52,10 +65,10 @@ return [
     'user_already_invited' => 'This user has already been invited to the team.',
     'user_not_leave'       => 'You may not leave a team that you created.',
 
-    'delete_team_meassage' => 'Permanently delete this team.',
-    'delete_team_text'     => 'Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain.',
-    'delete_team_sure'     => 'Are you sure you want to delete this team? Once a team is deleted, all of its resources and data will be permanently deleted.',
-    'can_not_delete'       => 'This team can not be deleted because it contains valid data.',
+    'delete_team_message' => 'Permanently delete this team.',
+    'delete_team_text'    => 'Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain.',
+    'delete_team_sure'    => 'Are you sure you want to delete this team? Once a team is deleted, all of its resources and data will be permanently deleted.',
+    'can_not_delete'      => 'This team can not be deleted because it contains valid data.',
 
     'been_invited'               => 'You have been invited to join the :team team!',
     'no_account'                 => 'If you do not have an account, you may create one by clicking the button below. After creating an account, you may click the invitation acceptance button in this email to accept the team invitation:',
@@ -66,6 +79,7 @@ return [
     'discard'                    => 'If you did not expect to receive an invitation to this team, you may discard this email.',
 
     'transfer'           => 'Transfer',
+    'transfer_failed'    => 'The transfer failed',
     'transfer_ownership' => 'Transfer ownership',
     'transfer_message'   => 'Transfer this team\'s ownership to another team member.',
     'select_new_owner'   => 'Select an existing team member as the new team owner.',

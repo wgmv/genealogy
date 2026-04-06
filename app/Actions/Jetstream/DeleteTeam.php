@@ -8,7 +8,7 @@ use App\Models\Team;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Jetstream\Contracts\DeletesTeams;
 
-class DeleteTeam implements DeletesTeams
+final class DeleteTeam implements DeletesTeams
 {
     /**
      * Delete the given team.
@@ -18,10 +18,19 @@ class DeleteTeam implements DeletesTeams
         $teamId = (string) $team->id;
 
         // Delete the photo folders
-        foreach (config('app.photo_folders') as $folder) {
-            if (Storage::disk($folder)->exists($teamId)) {
-                Storage::disk($folder)->deleteDirectory($teamId);
-            }
+        if (Storage::disk('photos')->exists($teamId)) {
+            Storage::disk('photos')->deleteDirectory($teamId);
+        }
+
+        $user = auth()->user();
+
+        // If the user is currently on this team, switch to another team if available
+        if ($user && $user->current_team_id === $team->id) {
+            $newTeam = $user->allTeams()->where('id', '!=', $team->id)->first();
+
+            $user->forceFill([
+                'current_team_id' => $newTeam?->id,
+            ])->save();
         }
 
         // Permanently delete the team

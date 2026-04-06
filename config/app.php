@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -82,14 +84,17 @@ return [
 
     // add all available translations here, after providing the needed translation files in /lang/XX/
     'available_locales' => [
-        'Deutsch'    => 'de',               // German
-        'English'    => 'en',               // English
-        'Español'    => 'es',               // Spanish
-        'Français'   => 'fr',               // French
-        'Nederlands' => 'nl',               // Dutch
-        'Português'  => 'pt',               // Portuguese
-        'Việt Nam'   => 'vi',               // Vietnamese
-        '中文简体'       => 'zh_cn',            // Chinees
+        'Deutsch'          => 'de',         // German
+        'English'          => 'en',         // English
+        'Español'          => 'es',         // Spanish
+        'Français'         => 'fr',         // French
+        'हिन्दी'           => 'hi',         // Hindi
+        'Bahasa Indonesia' => 'id',         // Indonesian
+        'Nederlands'       => 'nl',         // Dutch
+        'Português'        => 'pt',         // Portuguese
+        'Türkçe'           => 'tr',         // Turkish
+        'Việt Nam'         => 'vi',         // Vietnamese
+        '中文简体'         => 'zh_cn',      // Chinees
     ],
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
@@ -140,6 +145,9 @@ return [
     | Custom values used in the application outside of the config files
     |--------------------------------------------------------------------------
     */
+    // hashed IP address to exclude developer's own visits from user location logging
+    'dev_ip_hash' => env('DEV_IP_HASH', null),
+
     'backup' => [
         'disk'          => env('BACKUP_DISK', 'backups'),
         'daily_cleanup' => env('BACKUP_DAILY_CLEANUP', '22:30'),
@@ -147,17 +155,83 @@ return [
         'mail_address'  => env('BACKUP_MAIL_ADDRESS', 'webmaster@yourdomain.com'),
     ],
 
-    'image_upload' => [
-        'max_width'     => (int) env('IMAGE_UPLOAD_MAX_WIDTH', 600),
-        'max_height'    => (int) env('IMAGE_UPLOAD_MAX_HEIGHT', 800),
-        'quality'       => (int) env('IMAGE_UPLOAD_QUALITY', 80),
-        'type'          => env('IMAGE_UPLOAD_TYPE', 'webp'),
-        'add_watermark' => env('IMAGE_UPLOAD_ADD_WATERMARK', true),
+    // uploaded originals (needed for GEDCOM export) are always kept alongside the resized versions
+    // default values for resizing, watermarking and saving photo uploads
+    'upload_photo' => [
+        'max_width'     => 1920,
+        'max_height'    => 1080,
+        'add_watermark' => env('PHOTOS_ADD_WATERMARK', false),
+        'sizes'         => [
+            'large' => [
+                'width'   => 1920,
+                'height'  => 1080,
+                'quality' => 90,  // 90 is sweet spot for WebP
+            ],
+            'medium' => [
+                'width'   => 384,
+                'height'  => null,
+                'quality' => 85,
+            ],
+            'small' => [
+                'width'   => 96,
+                'height'  => null,
+                'quality' => 80,
+            ],
+        ],
     ],
 
-    'photo_folders' => [
-        'photos',
-        'photos-096',
-        'photos-384',
+    // accepted file types for photo uploads
+    'upload_photo_accept' => [
+        'image/bmp'  => 'BMP',
+        'image/gif'  => 'GIF',
+        'image/jpeg' => 'JPEG',
+        'image/png'  => 'PNG',
+        'image/webp' => 'WEBP',
     ],
+
+    'upload_photo_validation' => [
+        // File extensions (derived from upload_photo_accept)
+        'extensions' => ['bmp', 'gif', 'jpeg', 'jpg', 'png', 'webp'],
+
+        // MIME types for mimes validation rule (derived from upload_photo_accept)
+        'mimes_rule' => 'bmp,gif,jpeg,jpg,png,webp',
+
+        // Image types for getimagesize() validation
+        'image_types' => [
+            IMAGETYPE_BMP,
+            IMAGETYPE_GIF,
+            IMAGETYPE_JPEG,
+            IMAGETYPE_PNG,
+            IMAGETYPE_WEBP,
+        ],
+
+        // Dimension constraints
+        'dimensions' => [
+            'min_width'  => 100,
+            'min_height' => 100,
+            'max_width'  => 8000,
+            'max_height' => 8000,
+        ],
+    ],
+
+    // accepted file types for file uploads
+    'upload_file_accept' => [
+        'text/plain'                                                              => 'TXT',
+        'application/pdf'                                                         => 'PDF',
+        'application/vnd.oasis.opendocument.text'                                 => 'ODT',
+        'application/msword'                                                      => 'DOC',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'DOCX',
+        'application/vnd.ms-excel'                                                => 'XLS',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'       => 'XLSX',
+    ],
+
+    'upload_file_validation' => [
+        // File extensions (derived from upload_file_accept)
+        'extensions' => ['txt', 'pdf', 'odt', 'doc', 'docx', 'xls', 'xlsx'],
+
+        // MIME types for mimes validation rule
+        'mimes_rule' => 'txt,pdf,odt,doc,docx,xls,xlsx',
+    ],
+
+    'upload_max_size' => 10240, // set this according to your webserver settings (in KB)
 ];

@@ -18,7 +18,7 @@ use Laravel\Jetstream\Jetstream;
 use Laravel\Jetstream\Mail\TeamInvitation;
 use Laravel\Jetstream\Rules\Role;
 
-class InviteTeamMember implements InvitesTeamMembers
+final class InviteTeamMember implements InvitesTeamMembers
 {
     /**
      * Invite a new team member to the given team.
@@ -31,6 +31,7 @@ class InviteTeamMember implements InvitesTeamMembers
 
         InvitingTeamMember::dispatch($team, $email, $role);
 
+        /** @var \Laravel\Jetstream\TeamInvitation $invitation */
         $invitation = $team->teamInvitations()->create([
             'email' => $email,
             'role'  => $role,
@@ -59,7 +60,7 @@ class InviteTeamMember implements InvitesTeamMembers
     /**
      * Validate the invite member operation.
      */
-    protected function validate(Team $team, string $email, ?string $role): void
+    private function validate(Team $team, string $email, ?string $role): void
     {
         Validator::make([
             'email' => $email,
@@ -74,14 +75,14 @@ class InviteTeamMember implements InvitesTeamMembers
     /**
      * Get the validation rules for inviting a team member.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, array<int, mixed>|null>
      */
-    protected function rules(Team $team): array
+    private function rules(Team $team): array
     {
         return array_filter([
             'email' => [
                 'required', 'email',
-                Rule::unique(Jetstream::teamInvitationModel())->where(function (Builder $query) use ($team) {
+                Rule::unique(Jetstream::teamInvitationModel())->where(function (Builder $query) use ($team): void {
                     $query->where('team_id', $team->id);
                 }),
             ],
@@ -92,9 +93,9 @@ class InviteTeamMember implements InvitesTeamMembers
     /**
      * Ensure that the user is not already on the team.
      */
-    protected function ensureUserIsNotAlreadyOnTeam(Team $team, string $email): Closure
+    private function ensureUserIsNotAlreadyOnTeam(Team $team, string $email): Closure
     {
-        return function ($validator) use ($team, $email) {
+        return function ($validator) use ($team, $email): void {
             $validator->errors()->addIf(
                 $team->hasUserWithEmail($email),
                 'email',

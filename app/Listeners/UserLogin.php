@@ -8,13 +8,14 @@ use App\Models\Userlog;
 use Illuminate\Auth\Events\Login;
 use Stevebauman\Location\Facades\Location;
 
-class UserLogin
+final class UserLogin
 {
     /**
      * Handle the login event.
      */
     public function handle(Login $event): void
     {
+        /** @var \App\Models\User $user */
         $user = $event->user;
 
         // -----------------------------------------------------------------------
@@ -29,7 +30,7 @@ class UserLogin
         // Update user's last seen timestamp
         // -----------------------------------------------------------------------
         $user->timestamps = false;
-        $user->seen_at    = now()->getTimestamp();
+        $user->seen_at    = \Carbon\Carbon::now();
         $user->saveQuietly();
 
         // -----------------------------------------------------------------------
@@ -45,6 +46,27 @@ class UserLogin
      */
     private function logUserLocation(int $userId): void
     {
+        // -----------------------------------------------------------------------
+        // Exclude your own IP without storing or exposing it
+        // -----------------------------------------------------------------------
+        $requestIp = request()->ip();
+
+        // Skip if IP is not available
+        if (! $requestIp) {
+            return;
+        }
+
+        $requestIpHash = hash('sha256', $requestIp);
+        $devIpHash     = config('app.dev_ip_hash');
+
+        if ($devIpHash && hash_equals($requestIpHash, $devIpHash)) {
+            // Skip logging
+            return;
+        }
+
+        // -----------------------------------------------------------------------
+        // Log visitor's location
+        // -----------------------------------------------------------------------
         if ($position = Location::get()) {
             Userlog::create([
                 'user_id'      => $userId,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'couple'  => '夫妻',
     'couples' => '情侣',
@@ -16,4 +18,7 @@ return [
     'person2_id' => '第二任配偶',
 
     'team_id' => '家族',
+
+    'overlap'              => '检测到关系重叠！',
+    'required_if_date_end' => '当设置结束日期时，关系必须标记为已结束。',
 ];

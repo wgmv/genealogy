@@ -1,3 +1,4 @@
+*.log
 /.phpunit.cache
 /node_modules
 
@@ -17,7 +18,25 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/.gemini
+/.junie
+/.cursor
+/.claude
+/.github/skills
+/.ai
+.mcp.json
+boost.json
+/.agents
+config.toml
+opencode.json
 deploy-genealogy.sh
 herd.yml
+_ide_helper.php
+_ide_helper_models.php
+
+.devbox/*
+devbox.d/*
+devbox.json
+devbox.lock
 
 /.env.remote

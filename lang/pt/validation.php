@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'accepted'        => 'O campo :attribute deve ser aceito.',
     'accepted_if'     => 'O campo :attribute deve ser aceito quando :other for :value.',
@@ -140,6 +142,7 @@ return [
     'ulid'                       => 'O campo :attribute deve ser um ULID válido.',
     'uuid'                       => 'O campo :attribute deve ser um UUID válido.',
     'surname.required_without'   => 'Ao adicionar uma NOVA pessoa, é necessário um sobrenome.',
+    'sex.required_without'       => 'Ao adicionar uma NOVA pessoa, um sexo deve ser definido.',
     'person_id.required_without' => 'Ao adicionar uma pessoa EXISTENTE, selecione uma pessoa.',
     'attributes'                 => [
     ],

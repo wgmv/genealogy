@@ -3,10 +3,6 @@
 @endsection
 
 <x-app-layout>
-    <x-slot name="heading">
-        {{ __('auth.login') }}
-    </x-slot>
-
     <x-authentication-card>
         <x-slot name="logo">
             <x-authentication-card-logo />
@@ -44,7 +40,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
-                    <a class="text-sm text-gray-600 underline rounded hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                    <a class="text-sm text-gray-600 underline rounded-sm hover:text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                         href="{{ route('password.request') }}">
                         {{ __('auth.forgot_password') }}
                     </a>

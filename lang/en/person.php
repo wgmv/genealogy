@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Labels
     'biological'      => 'biological',
@@ -67,6 +69,7 @@ return [
     'edit_person'       => 'Edit person',
     'edit_profile'      => 'Edit profile',
     'edit_relationship' => 'Edit relationship',
+    'edit_events'       => 'Edit events',
 
     'delete_child'        => 'Disconnect child',
     'delete_person'       => 'Delete person',
@@ -108,24 +111,38 @@ return [
     'cemetery_location' => 'Cemetery Location',
 
     // files
-    'upload_files'     => 'Upload files',
-    'files'            => 'Files',
-    'files_saved'      => '[0] No files saved|[1] File saved|[2,*] Files saved',
-    'file'             => 'File',
-    'file_deleted'     => 'File deleted',
-    'update_files_tip' => 'Drag and drop your new files here',
+    'files'                  => 'Files',
+    'files_saved'            => '[0] No files saved|[1] File saved|[2,*] Files saved',
+    'file'                   => 'File',
+    'file_deleted'           => 'File deleted',
+    'upload_files'           => 'Upload files',
+    'upload_files_tip'       => 'Drag and drop your new files here ...',
+    'no_valid_files_to_save' => 'No valid files to save',
+    'files_invalid'          => '{1} :count file was invalid and skipped|[2,*] :count files were invalid and skipped',
+    'files_save_failed'      => 'Failed to save files',
+
+    'upload_accept_types' => 'Allowed : :types',
+    'upload_max_size'     => 'Maximum size : :max KB',
 
     // Photo
-    'avatar'            => 'Avatar',
-    'edit_photos'       => 'Edit photos',
-    'photo_deleted'     => 'Photo deleted',
-    'photo'             => 'Photo',
-    'photos'            => 'Photos',
-    'photos_saved'      => '[0] No photos saved|[1] Photo saved|[2,*] Photos saved',
-    'photos_existing'   => 'Existing photos',
-    'set_primary'       => 'Set as primary',
-    'upload_photos'     => 'Upload photos',
-    'update_photos_tip' => 'Drag and drop your new photos here',
+    'avatar'                      => 'Avatar',
+    'edit_photos'                 => 'Edit photos',
+    'invalid_image_file_detected' => 'Invalid image file detected',
+    'photo_delete_failed'         => 'Failed to delete photo',
+    'photo_deleted'               => 'Photo deleted',
+    'photo'                       => 'Photo',
+    'photos'                      => 'Photos',
+    'photo_not_found'             => 'Photo not found',
+    'photos_saved'                => '[0] No photos saved|[1] Photo saved|[2,*] :count Photos saved',
+    'photos_save_failed'          => 'Failed to same (some) photo(s)',
+    'photos_existing'             => 'Existing photos',
+    'photo_set_primary'           => 'Set as primary',
+    'photo_set_primary_failed'    => 'Failed to set primary photo',
+    'photo_is_set_primary'        => 'New photo has been set as primary',
+    'upload_photos'               => 'Upload photos',
+    'upload_photos_tip'           => 'Drag and drop your new photos here ...',
+    'no_valid_photos_to_save'     => 'No valid photos to save',
+    'photos_invalid'              => '{1} :count photo was invalid and skipped|[2,*] :count photos were invalid and skipped',
 
     // Messages
     'yod_not_matching_dod' => 'The Year of death must match the Date of death (:value).',
@@ -146,4 +163,23 @@ return [
 
     'not_found' => 'Person not found',
     'use_tab'   => 'Use tab',
+
+    'existing_person_linked_as_father'  => 'Existing person linked as father.',
+    'new_person_linked_as_father'       => 'New person linked as father.',
+    'existing_person_linked_as_mother'  => 'Existing person linked as mother.',
+    'new_person_linked_as_mother'       => 'New person linked as mother.',
+    'existing_person_linked_as_child'   => 'Existing person linked as child.',
+    'new_person_linked_as_child'        => 'New person linked as child.',
+    'existing_person_linked_as_partner' => 'Existing person linked as partner.',
+    'new_person_linked_as_parther'      => 'New person linked as parter.',
+
+    'family_caution_1' => 'Father and Mother may only be used for the biological parents and must therefore be of opposite sex.',
+    'family_caution_2' => 'Parents may be the biological parents, but may also be used for non-biological parents (gay or adoptive). In the latter case, simply leave Father and Mother blank.',
+
+    'parents_id_exclusive' => 'Parents is exclusive. If you set Parents, you can not set Father or Mother.',
+
+    'search_similar'       => 'Search similar persons',
+    'similar_persons'      => 'Similar existing persons',
+    'no_similar_persons'   => 'No similar persons found yet — enter some names and click the search button.',
+    'similar_persons_hint' => 'To avoid adding a person more than once, similar existing persons are shown here after you type a first name, surname, birthname or nickname and click the search button.',
 ];

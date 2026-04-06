@@ -3,10 +3,6 @@
 @endsection
 
 <x-app-layout>
-    <x-slot name="heading">
-        {{ __('auth.register') }}
-    </x-slot>
-
     <x-authentication-card>
         <x-slot name="logo">
             <x-authentication-card-logo />
@@ -55,9 +51,9 @@
                     <x-label for="language" value="{{ __('user.language') }} :" />
                 </div>
                 <div class="md:w-2/3">
-                    <select id="language" class="block w-full rounded" name="language" required>
+                    <select id="language" class="block w-full rounded-sm" name="language" required>
                         @foreach (config('app.available_locales') as $locale_name => $available_locale)
-                            <option value="{{ $available_locale }}" @selected($available_locale == app()->getLocale())>{{ $locale_name }}</option>
+                            <option value="{{ $available_locale }}" @selected($available_locale === old('language', app()->getLocale()))>{{ $locale_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -68,9 +64,21 @@
                     <x-label for="timezone" value="{{ __('user.timezone') }} :" />
                 </div>
                 <div class="md:w-2/3">
-                    <select id="timezone" class="block w-full rounded" name="timezone" required>
-                        @foreach (timezone_identifiers_list() as $timezone)
-                            <option value="{{ $timezone }}">{{ $timezone }}</option>
+                    <select id="timezone" class="block w-full rounded-sm" name="timezone" required>
+                        @php
+                            $timezones = collect(timezone_identifiers_list())
+                                ->groupBy(fn($tz) => str_contains($tz, '/') ? explode('/', $tz)[0] : 'Other')
+                                ->sortKeys();
+                        @endphp
+
+                        @foreach ($timezones as $continent => $zones)
+                            <optgroup label="{{ $continent }}">
+                                @foreach ($zones as $timezone)
+                                    <option value="{{ $timezone }}" @selected($timezone === old('timezone', config('app.timezone')))>
+                                        {{ str_replace('_', ' ', $timezone) }}
+                                    </option>
+                                @endforeach
+                            </optgroup>
                         @endforeach
                     </select>
                 </div>
@@ -109,13 +117,13 @@
                                     'terms_of_service' =>
                                         '<a target="_blank" href="' .
                                         route('terms.show') .
-                                        '" class="text-sm text-gray-600 underline rounded hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
+                                        '" class="text-sm text-gray-600 underline rounded-sm hover:text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
                                         __('app.terms_of_service') .
                                         '</a>',
                                     'privacy_policy' =>
                                         '<a target="_blank" href="' .
                                         route('policy.show') .
-                                        '" class="text-sm text-gray-600 underline rounded hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
+                                        '" class="text-sm text-gray-600 underline rounded-sm hover:text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
                                         __('app.privacy_policy') .
                                         '</a>',
                                 ]) !!}
@@ -126,7 +134,7 @@
             @endif
 
             <div class="flex items-center justify-end mt-4">
-                <a class="text-sm text-gray-600 underline rounded hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                <a class="text-sm text-gray-600 underline rounded-sm hover:text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                     {{ __('auth.already_registered') }}?
                 </a>
 
@@ -142,7 +150,7 @@
 
         function setSelectedValue(selectObj, valueToSet) {
             for (var i = 0; i < selectObj.options.length; i++) {
-                if (selectObj.options[i].text == valueToSet) {
+                if (selectObj.options[i].text === valueToSet) {
                     selectObj.options[i].selected = true;
                     return;
                 }

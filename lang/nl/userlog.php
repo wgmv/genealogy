@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Labels
     'users_log'        => 'Gebruikers logboek',
@@ -21,8 +23,8 @@ return [
 
     // Attributes
     'date'         => 'Datum',
-    'hour'         => 'Uur',
+    'time'         => 'Tijd',
     'user'         => 'Gebruiker',
-    'Country_name' => 'Land',
-    'Country_code' => 'Landscode',
+    'country_name' => 'Land',
+    'country_code' => 'Landscode',
 ];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -82,5 +84,8 @@ return [
     'link_send'    => 'A new verification link has been sent to the email address you provided in your profile settings.',
     'resend'       => 'Resend Verification Email',
     'edit_profile' => 'Edit Profile',
+
+    'no_permissions' => 'You do not have any permissions.',
+    'role_unknown'   => 'Role is unknown.',
 
 ];

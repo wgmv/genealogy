@@ -5,7 +5,7 @@
 
     $person_sequence = $ancestors->firstWhere('id', $person->id)->sequence;
 
-    $ancestors_next = $ancestors->where('degree', $level_current)->filter(function ($item) use ($person_sequence) {
+    $ancestors_next = $ancestors->where('degree', $level_current)->filter(function ($item) use ($person_sequence): bool {
         return strpos($item->sequence, $person_sequence) !== false;
     });
 @endphp
@@ -15,21 +15,26 @@
         <x-link href="/people/{{ $person->id }}" title="{{ $person->sex === 'm' ? __('app.male') : __('app.female') }}">
             <figure class="w-24">
                 <div class="user-image">
-                    @if ($person->photo and Storage::exists('public/photos/' . $person->team_id . '/' . $person->photo))
-                        <img src="{{ asset('storage/photos-096/' . $person->team_id . '/' . $person->photo) }}" class="w-full rounded shadow-lg dark:shadow-black/30" alt="{{ $person->id }}" />
+                    @php
+                        $photoPath = $person->team_id . '/' . $person->id . '/' . $person->photo . '_small.webp';
+                    @endphp
+
+                    @if ($person->photo && Storage::disk('photos')->exists($photoPath))
+                        <img src="{{ Storage::disk('photos')->url($photoPath) }}" class="w-full rounded-sm shadow-lg dark:shadow-black/30" alt="{{ $person->id }}" />
                     @else
-                        <x-svg.person-no-image class="w-full rounded shadow-lg dark:shadow-black/30 fill-neutral-400" alt="no-image-found" />
+                        <x-svg.person-no-image class="w-full rounded-sm shadow-lg dark:shadow-black/30 fill-neutral-400" alt="no-image-found" />
                     @endif
 
                     @if ($person->dod or $person->yod)
-                        <div class="ribbon">{{ __('person.deceased') }}</div>
+                        <div class="ribbon" title="{{ __('person.deceased') }}">&nbsp;</div>
                     @endif
                 </div>
 
                 <figcaption @class([
-                    'text-danger-600 dark:text-danger-400' => $person->dod or $person->yod,
+                    'text-red-600 dark:text-red-400' => $person->dod or $person->yod,
                     'text-primary-500 dark:text-primary-300' => !($person->dod or $person->yod),
-                ])>
+                    'line-clamp-2 text-xs leading-tight w-24 wrap-break-word'
+                ]) title="{{ implode(' ', array_filter([$person->firstname, $person->surname])) }}">
                     {{ implode(' ', array_filter([$person->firstname, $person->surname])) }}
                 </figcaption>
             </figure>

@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace App\Rules;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Throwable;
 
-class YodValid implements DataAwareRule, ValidationRule
+final class YodValid implements DataAwareRule, ValidationRule
 {
     /**
-     * All of the data under validation.
+     * The full validation data.
      *
      * @var array<string, mixed>
      */
-    protected $data = [];
+    private array $data = [];
 
     /**
-     * Set the data under validation.
+     * Set the validation data.
      *
      * @param  array<string, mixed>  $data
      */
@@ -30,27 +32,48 @@ class YodValid implements DataAwareRule, ValidationRule
     }
 
     /**
-     * Run the validation rule.
-     *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * Validate the date of birth (yod) against other fields.
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($this->data['dod']) {
-            // yod must match dod->year
-            if ($value != date('Y', strtotime($this->data['dod']))) {
-                $fail(__('person.yod_not_matching_dod', ['value' => $this->data['dod']]));
-            }
-        } elseif (isset($this->data['person'])) {
-            if ($this->data['person']['dob']) {
-                // yod may not be before dob->year
-                if ($value < date('Y', strtotime($this->data['person']['dob']))) {
-                    $fail(__('person.yod_before_dob', ['value' => $this->data['person']['dob']]));
+        if (empty($value)) {
+            return; // No value to validate
+        }
+
+        $yod = (int) $value;
+
+        if (! empty($this->data['dod'])) {
+            try {
+                $dod = Carbon::parse($this->data['dod']);
+
+                if ($yod !== $dod->year) {
+                    $fail(__('person.yod_not_matching_dod', ['value' => $this->data['dod']]));
                 }
-            } elseif ($this->data['person']['yob']) {
-                // yod may not be before yob
-                if ($value < $this->data['person']['yob']) {
-                    $fail(__('person.yod_before_yob', ['value' => $this->data['person']['yob']]));
+            } catch (Throwable) {
+                return; // Ignore parse error (assume handled elsewhere)
+            }
+        }
+
+        if (! empty($this->data['person'])) {
+            // Check if year of death is equal or after date of birth
+            if (! empty($this->data['person']['dob'])) {
+                try {
+                    $dob = Carbon::parse($this->data['person']['dob']);
+
+                    if ($yod < $dob->year) {
+                        $fail(__('person.yod_before_dob', ['value' => $this->data['person']['dob']]));
+                    }
+                } catch (Throwable) {
+                    return; // Ignore parse error (assume handled elsewhere)
+                }
+            }
+
+            // Check if year of death is equal or after year of birth
+            if (! empty($this->data['person']['yob'])) {
+                $yob = (int) $this->data['person']['yob'];
+
+                if ($yod < $yob) {
+                    $fail(__('person.yod_before_yob', ['value' => $yob]));
                 }
             }
         }

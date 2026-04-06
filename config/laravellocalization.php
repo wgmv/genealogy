@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     // Uncomment the languages that your site supports - or add new ones.
@@ -16,7 +18,7 @@ return [
         // 'ae'          => ['name' => 'Avestan',                'script' => 'Latn', 'native' => 'avesta', 'regional' => ''],
         // 'ay'          => ['name' => 'Aymara',                 'script' => 'Latn', 'native' => 'aymar aru', 'regional' => 'ay_PE'],
         // 'az'          => ['name' => 'Azerbaijani (Latin)',    'script' => 'Latn', 'native' => 'azərbaycanca', 'regional' => 'az_AZ'],
-        // 'id'          => ['name' => 'Indonesian',             'script' => 'Latn', 'native' => 'Bahasa Indonesia', 'regional' => 'id_ID'],
+        'id' => ['name' => 'Indonesian',             'script' => 'Latn', 'native' => 'Bahasa Indonesia', 'regional' => 'id_ID'],
         // 'ms'          => ['name' => 'Malay',                  'script' => 'Latn', 'native' => 'Bahasa Melayu', 'regional' => 'ms_MY'],
         // 'bm'          => ['name' => 'Bambara',                'script' => 'Latn', 'native' => 'bamanakan', 'regional' => ''],
         // 'jv'          => ['name' => 'Javanese (Latin)',       'script' => 'Latn', 'native' => 'Basa Jawa', 'regional' => ''],
@@ -187,7 +189,7 @@ return [
         // 'lu'          => ['name' => 'Luba-Katanga',           'script' => 'Latn', 'native' => 'Tshiluba', 'regional' => 've_ZA'],
         // 've'          => ['name' => 'Venda',                  'script' => 'Latn', 'native' => 'Tshivenḓa', 'regional' => ''],
         // 'tw'          => ['name' => 'Twi',                    'script' => 'Latn', 'native' => 'Twi', 'regional' => ''],
-        // 'tr'          => ['name' => 'Turkish',                'script' => 'Latn', 'native' => 'Türkçe', 'regional' => 'tr_TR'],
+        'tr' => ['name' => 'Turkish',                'script' => 'Latn', 'native' => 'Türkçe', 'regional' => 'tr_TR'],
         // 'ale'         => ['name' => 'Aleut',                  'script' => 'Latn', 'native' => 'Unangax tunuu', 'regional' => ''],
         // 'ca-valencia' => ['name' => 'Valencian',              'script' => 'Latn', 'native' => 'valencià', 'regional' => ''],
         // 'vai-Latn'    => ['name' => 'Vai (Latin)',            'script' => 'Latn', 'native' => 'Viyamíĩ', 'regional' => ''],
@@ -257,7 +259,7 @@ return [
         // 'mai'         => ['name' => 'Maithili',               'script' => 'Tirh', 'native' => 'मैथिली', 'regional' => 'mai_IN'],
         // 'raj'         => ['name' => 'Rajasthani',             'script' => 'Deva', 'native' => 'राजस्थानी', 'regional' => ''],
         // 'sa'          => ['name' => 'Sanskrit',               'script' => 'Deva', 'native' => 'संस्कृतम्', 'regional' => 'sa_IN'],
-        // 'hi'          => ['name' => 'Hindi',                  'script' => 'Deva', 'native' => 'हिन्दी', 'regional' => 'hi_IN'],
+        'hi' => ['name' => 'Hindi',                  'script' => 'Deva', 'native' => 'हिन्दी', 'regional' => 'hi_IN'],
         // 'as'          => ['name' => 'Assamese',               'script' => 'Beng', 'native' => 'অসমীয়া', 'regional' => 'as_IN'],
         // 'bn'          => ['name' => 'Bengali',                'script' => 'Beng', 'native' => 'বাংলা', 'regional' => 'bn_BD'],
         // 'mni'         => ['name' => 'Manipuri',               'script' => 'Beng', 'native' => 'মৈতৈ', 'regional' => 'mni_IN'],

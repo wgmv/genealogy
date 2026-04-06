@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -82,5 +84,8 @@ return [
     'link_send'    => 'Ein neuer Bestätigungslink wurde an die E-Mail-Adresse gesendet, die Sie in Ihren Profileinstellungen angegeben haben.',
     'resend'       => 'Bestätigungsmail erneut senden',
     'edit_profile' => 'Profil bearbeiten',
+
+    'no_permissions' => 'Sie haben keine Berechtigungen.',
+    'role_unknown'   => 'Rolle ist unbekannt.',
 
 ];

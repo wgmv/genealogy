@@ -8,29 +8,24 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OwnershipTransferred extends Notification
+final class OwnershipTransferred extends Notification
 {
     use Queueable;
-
-    public $team;
 
     /**
      * Create a new notification instance.
      *
      * @param  \App\Models\Team  $team
      */
-    public function __construct($team)
-    {
-        $this->team = $team;
-    }
+    public function __construct(public $team) {}
 
     /**
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
-     * @return array
+     * @return array<int, string>
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -39,7 +34,7 @@ class OwnershipTransferred extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {

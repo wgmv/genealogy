@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // 菜单
     'about'            => '关于',
@@ -15,24 +17,34 @@ return [
     'log_viewer'       => '日志查看',
 
     // 标签
-    'api_tokens'        => 'API-Token',
+    'all'               => '全部',
+    'filter'            => '筛选',
+    'api_tokens'        => 'API 令牌',
     'attention'         => '注意',
-    'contact'           => '联系地址',
-    'datasheet'         => '信息表',
-    'death'             => '已故',
+    'circa'             => '约',
+    'contact'           => '联系',
+    'datasheet'         => '数据表',
+    'date'              => '日期',
+    'death'             => '去世',
     'documentation'     => '文档',
-    'family_chart'      => '家族结构',
+    'error'             => '错误',
+    'warning'           => '警告',
+    'family_chart'      => '家谱图',
     'female'            => '女性',
-    'history'           => '历史修改',
+    'history'           => '历史',
     'male'              => '男性',
-    'manage_account'    => '管理账号',
-    'my_profile'        => '我的信息',
-    'nothing_available' => '没有可用内容',
-    'nothing_found'     => '未找到内容',
-    'nothing_recorded'  => '没有数据。',
+    'manage_account'    => '管理账户',
+    'my_profile'        => '我的资料',
+    'nothing_available' => '暂无可用内容',
+    'nothing_found'     => '未找到任何内容',
+    'nothing_recorded'  => '尚未记录任何内容。',
+    'place'             => '地点',
     'search'            => '搜索',
-    'yes'               => '同意',
-    'no'                => '拒绝',
+    'timeline'          => '时间线',
+    'year'              => '年',
+    'yes'               => '是',
+    'no'                => '否',
+    'unknown'           => '未知',
 
     'created_at' => '添加',
     'updated_at' => '更新',
@@ -50,10 +62,13 @@ return [
     // Actions
     'add'     => '添加',
     'cancel'  => '取消',
+    'clear'   => '清除',
     'create'  => '创建',
     'created' => '已创建',
+    'update'  => '更新',
 
-    'download' => '下载',
+    'download'    => '下载',
+    'downloading' => '下载已开始。',
 
     'move_down' => '下移',
     'move_up'   => '上移',
@@ -64,11 +79,14 @@ return [
 
     'save'   => '保存',
     'saved'  => '已保存',
+    'saving' => '正在保存',
     'select' => '选择',
     'show'   => '显示',
 
     // Deletion confirm attributes
     'abort_no'            => '取消',
+    'are_you_sure'        => '你确定吗？',
+    'confirm'             => '确认',
     'delete'              => '解除关系',
     'deleted'             => '已删除',
     'delete_yes'          => '确定',
@@ -110,7 +128,7 @@ return [
 
     'people_search_help_1' => '系统将在搜索框中查找 <b class="text-emerald-600">每一个词</b>，在属性 <b class="text-emerald-600">姓</b>、<b class="text-emerald-600">名</b>、<b class="text-emerald-600">出生名</b> 和 <b class="text-emerald-600">昵称</b> 中进行匹配。',
     'people_search_help_2' => '如果您想搜索名称的一部分，请以 <b class="text-emerald-600">%</b> 开头，例如：<b class="text-emerald-600">%Jr</b>。<br/>请注意，这种搜索速度较慢。',
-    'people_search_help_3' => '如果姓、名、出生名或昵称中包含任何 <b class="text-emerald-600">空格</b>，请将名称用双引号括起来，<br/>例如：<b class="text-emerald-600">"John Jr." Kennedy</b>。',
+    'people_search_help_3' => '如果姓、名、出生名或昵称中包含任何 <b class="text-emerald-600">空格</b>，请将名称用双引号括起来，<br/>例如：<b class="text-emerald-600">"John Fitzgerald Jr." Kennedy</b>。',
 
     'unauthorized_access' => '未授权访问。',
 
@@ -131,4 +149,19 @@ return [
 
     'under_construction' => '建设中',
     'demonstration'      => '示范',
+
+    'password_generator'   => '密码生成器',
+    'password_length'      => '密码长度',
+    'use_numbers'          => '使用数字',
+    'use_symbols'          => '使用符号',
+    'generate'             => '生成',
+    'generating'           => '生成中',
+    'copy_to_clipboard'    => '复制到剪贴板',
+    'copied_to_clipboard'  => '已复制到剪贴板！',
+    'password_very_weak'   => '非常弱',
+    'password_weak'        => '弱',
+    'password_moderate'    => '中等',
+    'password_strong'      => '强',
+    'password_very_strong' => '非常强',
+    'check_breach'         => '检查您的电子邮件地址是否出现在数据泄露中',
 ];

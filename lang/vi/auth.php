@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -82,5 +84,8 @@ return [
     'link_send'    => 'Một liên kết xác minh mới đã được gửi đến địa chỉ email mà bạn đã cung cấp trong cài đặt hồ sơ của mình.',
     'resend'       => 'Gửi lại Email Xác Minh',
     'edit_profile' => 'Chỉnh sửa Hồ Sơ',
+
+    'no_permissions' => 'Bạn không có bất kỳ quyền nào.',
+    'role_unknown'   => 'Vai trò không xác định.',
 
 ];

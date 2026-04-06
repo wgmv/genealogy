@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'all_teams'     => 'Alle teams',
     'cancel'        => 'Abbrechen',
@@ -18,6 +20,17 @@ return [
     'team_personal' => 'Persönliches Team',
     'teams'         => 'Teams',
     'users'         => 'Benutzer',
+
+    'team_overview'                   => 'Teamübersicht',
+    'click_to_view_members'           => 'Klicken, um alle Teammitglieder zu sehen',
+    'click_to_view_persons'           => 'Klicken, um alle Familienmitglieder zu sehen',
+    'click_to_view_couples'           => 'Klicken, um alle Beziehungen zu sehen',
+    'no_results_found'                => 'Keine Ergebnisse gefunden',
+    'try_adjusting_your_search_terms' => 'Versuchen Sie, Ihre Suchbegriffe anzupassen',
+    'showing'                         => 'Anzeigen',
+    'of'                              => 'von',
+    'reset_filter'                    => 'Filter zurücksetzen',
+    'filtered_by'                     => 'Gefiltert nach',
 
     // Messages
     'team_details'    => 'Teamdetails',
@@ -52,10 +65,10 @@ return [
     'user_already_invited' => 'Dieser Benutzer wurde bereits zum Team eingeladen.',
     'user_not_leave'       => 'Sie dürfen ein von Ihnen erstelltes Team nicht verlassen.',
 
-    'delete_team_meassage' => 'Dieses Team dauerhaft löschen.',
-    'delete_team_text'     => 'Sobald ein Team gelöscht wird, werden alle seine Ressourcen und Daten dauerhaft gelöscht. Bevor Sie dieses Team löschen, laden Sie bitte alle Daten oder Informationen zu diesem Team herunter, die Sie behalten möchten.',
-    'delete_team_sure'     => 'Sind Sie sicher, dass Sie dieses Team löschen möchten? Sobald ein Team gelöscht wird, werden alle seine Ressourcen und Daten dauerhaft gelöscht.',
-    'can_not_delete'       => 'Dieses Team kann nicht gelöscht werden, da es gültige Daten enthält.',
+    'delete_team_message' => 'Dieses Team dauerhaft löschen.',
+    'delete_team_text'    => 'Sobald ein Team gelöscht wird, werden alle seine Ressourcen und Daten dauerhaft gelöscht. Bevor Sie dieses Team löschen, laden Sie bitte alle Daten oder Informationen zu diesem Team herunter, die Sie behalten möchten.',
+    'delete_team_sure'    => 'Sind Sie sicher, dass Sie dieses Team löschen möchten? Sobald ein Team gelöscht wird, werden alle seine Ressourcen und Daten dauerhaft gelöscht.',
+    'can_not_delete'      => 'Dieses Team kann nicht gelöscht werden, da es gültige Daten enthält.',
 
     'been_invited'               => 'Sie wurden eingeladen, dem :team-Team beizutreten!',
     'no_account'                 => 'Wenn Sie noch kein Konto haben, können Sie eines erstellen, indem Sie auf die Schaltfläche unten klicken. Nachdem Sie ein Konto erstellt haben, können Sie in dieser E-Mail auf die Schaltfläche „Einladung annehmen“ klicken, um die Teameinladung anzunehmen:',
@@ -66,6 +79,7 @@ return [
     'discard'                    => 'Wenn Sie nicht damit gerechnet haben, eine Einladung zu diesem Team zu erhalten, können Sie diese E-Mail verwerfen.',
 
     'transfer'           => 'Übertragen',
+    'transfer_failed'    => 'Die Übertragung ist fehlgeschlagen',
     'transfer_ownership' => 'Eigentum übertragen',
     'transfer_message'   => 'Übertragen Sie den Besitz dieses Teams auf ein anderes Teammitglied.',
     'select_new_owner'   => 'Wählen Sie ein bestehendes Teammitglied als neuen Teambesitzer aus.',

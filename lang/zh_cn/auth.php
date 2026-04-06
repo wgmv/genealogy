@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -81,5 +83,8 @@ return [
     'link_send'    => '一封新的验证链接已发送到你在个人资料设置中提供的电子邮件地址。',
     'resend'       => '重新发送验证电子邮件',
     'edit_profile' => '编辑个人资料',
+
+    'no_permissions' => '您没有任何权限。',
+    'role_unknown'   => '角色未知。',
 
 ];

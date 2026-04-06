@@ -1,32 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Couple;
 use App\Models\Person;
+use App\Models\PersonEvent;
 use App\Models\PersonMetadata;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Activitylog\Facades\CauserResolver;
+use Spatie\Activitylog\Facades\Activity;
 
-class DemoSeeder extends Seeder
+final class DemoSeeder extends Seeder
 {
-    protected $british_royals_team = 3;
+    protected int $british_royals_team;
 
-    protected $kennedy_team = 4;
+    protected int $kennedy_team;
 
-    protected $developer_team = 1;
+    protected int $developer_team;
+
+    public function __construct()
+    {
+        // Resolve the team IDs dynamically by name
+        $this->british_royals_team = Team::where('name', 'BRITISH ROYALS')->value('id');
+        $this->kennedy_team        = Team::where('name', 'KENNEDY')->value('id');
+        $this->developer_team      = Team::where('name', 'Team _ Developer')->value('id');
+    }
 
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $user                  = User::find(3);
-        $user->current_team_id = $this->british_royals_team;
-        $user->save();
-        auth()->login($user);
-        CauserResolver::setCauser($user);
+        $manager = User::where('surname', 'Manager')->first();
+        auth()->login($manager);
+        Activity::defaultCauser($manager);
 
         $this->importBritishRoyalsPeople();
         $this->importBritishRoyalsCouples();
@@ -34,22 +44,18 @@ class DemoSeeder extends Seeder
 
         auth()->logout();
 
-        $user                  = User::find(4);
-        $user->current_team_id = $this->kennedy_team;
-        $user->save();
-        auth()->login($user);
-        CauserResolver::setCauser($user);
+        $editor = User::where('surname', 'Editor')->first();
+        auth()->login($editor);
+        Activity::defaultCauser($editor);
 
         $this->importKennedyPeople();
         $this->importKennedyCouples();
 
         auth()->logout();
 
-        $user                  = User::find(1);
-        $user->current_team_id = $this->developer_team;
-        $user->save();
-        auth()->login($user);
-        CauserResolver::setCauser($user);
+        $developer = User::where('surname', 'Developer')->first();
+        auth()->login($developer);
+        Activity::defaultCauser($developer);
 
         $this->generatedeveloperTestData();
 
@@ -75,7 +81,7 @@ class DemoSeeder extends Seeder
                 'birthname' => ! empty($person['birthname']) ? $person['birthname'] : null,
                 'nickname'  => ! empty($person['nickname']) ? $person['nickname'] : null,
 
-                'sex' => strtolower($person['sex']),
+                'sex' => mb_strtolower((string) $person['sex']),
 
                 'father_id'  => ! empty($person['father_id']) ? $person['father_id'] : null,
                 'mother_id'  => ! empty($person['mother_id']) ? $person['mother_id'] : null,
@@ -88,7 +94,9 @@ class DemoSeeder extends Seeder
                 'yod' => ! empty($person['yod']) ? $person['yod'] : null,
                 'pod' => ! empty($person['death_place']) ? $person['death_place'] : null,
 
-                'photo' => ! empty($person['photo']) ? $person['id'] . '_001_demo.webp' : null,
+                'photo' => ! empty($person['photo']) ? $person['id'] . '_001_demo' : null,
+
+                'summary' => ! empty($person['note']) ? $person['note'] : null,
 
                 'team_id' => $this->british_royals_team,
             ]);
@@ -166,7 +174,7 @@ class DemoSeeder extends Seeder
                 'date_end'   => ! empty($couple['date_end']) ? $couple['date_end'] : null,
 
                 'is_married' => $couple['status'] >= 1 ? 1 : 0,
-                'has_ended'  => $couple['status'] == 2 ? 1 : 0,
+                'has_ended'  => $couple['status'] === 2 ? 1 : 0,
 
                 'team_id' => $this->british_royals_team,
             ]);
@@ -184,6 +192,7 @@ class DemoSeeder extends Seeder
             'surname'   => 'Only FATHER side',
             'sex'       => 'm',
             'dob'       => '1999-01-04',
+            'yob'       => '1999',
 
             'father_id' => 2,
 
@@ -224,6 +233,7 @@ class DemoSeeder extends Seeder
             'surname'   => 'Gay',
             'sex'       => 'f',
             'dob'       => '1970-01-01',
+            'yob'       => '1970',
 
             'team_id' => $this->british_royals_team,
         ]);
@@ -234,6 +244,7 @@ class DemoSeeder extends Seeder
             'surname'   => 'Gay',
             'sex'       => 'f',
             'dob'       => '1971-01-01',
+            'yob'       => '1971',
 
             'team_id' => $this->british_royals_team,
         ]);
@@ -244,6 +255,7 @@ class DemoSeeder extends Seeder
             'surname'   => 'Gay parents',
             'sex'       => 'm',
             'dob'       => '2000-01-01',
+            'yob'       => '2000',
             'mother_id' => 201,
 
             'team_id' => $this->british_royals_team,
@@ -255,6 +267,7 @@ class DemoSeeder extends Seeder
             'surname'   => 'Gay parents',
             'sex'       => 'm',
             'dob'       => '2001-01-01',
+            'yob'       => '2001',
             'mother_id' => 201,
 
             'team_id' => $this->british_royals_team,
@@ -266,6 +279,7 @@ class DemoSeeder extends Seeder
             'surname'   => 'King Charles',
             'sex'       => 'm',
             'dob'       => '1960-01-01',
+            'yob'       => '1960',
 
             'team_id' => $this->british_royals_team,
         ]);
@@ -276,6 +290,7 @@ class DemoSeeder extends Seeder
             'surname'   => 'New Partner King Charles',
             'sex'       => 'm',
             'dob'       => '2015-01-01',
+            'yob'       => '2015',
             'father_id' => 205,
 
             'team_id' => $this->british_royals_team,
@@ -305,6 +320,7 @@ class DemoSeeder extends Seeder
             'surname'    => 'Gay parents',
             'sex'        => 'f',
             'dob'        => '2002-01-01',
+            'yob'        => '2002',
             'parents_id' => 101,
 
             'team_id' => $this->british_royals_team,
@@ -316,6 +332,7 @@ class DemoSeeder extends Seeder
             'surname'    => 'Gay parents',
             'sex'        => 'f',
             'dob'        => '2003-01-01',
+            'yob'        => '2003',
             'parents_id' => 101,
 
             'team_id' => $this->british_royals_team,
@@ -337,11 +354,31 @@ class DemoSeeder extends Seeder
         // -----------------------------------------------------------------------
         // address
         // -----------------------------------------------------------------------
-        Person::findOrFail(5)->update([
+        $person = Person::findOrFail(5);
+
+        $person->update([
             'street'      => 'Royal Lodge',
             'postal_code' => 'SL4 2JD',
             'city'        => 'Windsor',
             'country'     => 'gb',
+        ]);
+
+        // -----------------------------------------------------------------------
+        // events
+        // -----------------------------------------------------------------------
+        PersonEvent::create([
+            'person_id'   => $person->id,
+            'type'        => PersonEvent::TYPE_BAPTISM,
+            'description' => 'He was baptized in the Music Room at Buckingham Palace by the Archbishop of Canterbury. He was named, Andrew Albert Christian Edward.',
+            'date'        => '1960-04-08',
+            'place'       => 'Music Room at Buckingham Palace, London, England',
+        ]);
+
+        PersonEvent::create([
+            'person_id'   => $person->id,
+            'type'        => PersonEvent::TYPE_MILITARY_SERVICE,
+            'description' => 'He served 22 years (1979 - 2001) in the Royal Navy, primarily as a helicopter pilot, including active duty in the Falklands War in 1982, where he flew Sea King helicopters and acted as a decoy for Exocet missiles. He retired as a Commander in 2001 but later received honorary promotions, including to Vice-Admiral in 2015, though he was stripped of all military titles and affiliations by Queen Elizabeth II in 2022 following scrutiny over his association with convicted sex offender Jeffrey Epstein.',
+            'year'        => '1979',
         ]);
     }
 
@@ -364,7 +401,7 @@ class DemoSeeder extends Seeder
                 'birthname' => ! empty($person['birthname']) ? $person['birthname'] : null,
                 'nickname'  => ! empty($person['nickname']) ? $person['nickname'] : null,
 
-                'sex' => strtolower($person['sex']),
+                'sex' => mb_strtolower((string) $person['sex']),
 
                 'father_id'  => ! empty($person['father_id']) ? $person['father_id'] : null,
                 'mother_id'  => ! empty($person['mother_id']) ? $person['mother_id'] : null,
@@ -377,7 +414,7 @@ class DemoSeeder extends Seeder
                 'yod' => ! empty($person['yod']) ? $person['yod'] : null,
                 'pod' => ! empty($person['death_place']) ? $person['death_place'] : null,
 
-                'photo' => ! empty($person['photo']) ? $person['id'] . '_001_demo.webp' : null,
+                'photo' => ! empty($person['photo']) ? $person['id'] . '_001_demo' : null,
 
                 'team_id' => $this->kennedy_team,
             ]);
@@ -406,7 +443,7 @@ class DemoSeeder extends Seeder
                 'date_end'   => ! empty($couple['date_end']) ? $couple['date_end'] : null,
 
                 'is_married' => $couple['status'] >= 1 ? 1 : 0,
-                'has_ended'  => $couple['status'] == 2 ? 1 : 0,
+                'has_ended'  => $couple['status'] === 2 ? 1 : 0,
 
                 'team_id' => $this->kennedy_team,
             ]);
@@ -421,7 +458,8 @@ class DemoSeeder extends Seeder
             'surname'   => 'DOE',
             'sex'       => 'm',
             'dob'       => '1963-01-01',
-            'photo'     => '209_001_demo.webp',
+            'yob'       => '1963',
+            'photo'     => '209_001_demo',
 
             'team_id' => $this->developer_team,
         ]);
@@ -432,7 +470,8 @@ class DemoSeeder extends Seeder
             'surname'   => 'BAR',
             'sex'       => 'm',
             'dob'       => '1963-01-01',
-            'photo'     => '210_001_demo.webp',
+            'yob'       => '1963',
+            'photo'     => '210_001_demo',
 
             'team_id' => $this->developer_team,
         ]);

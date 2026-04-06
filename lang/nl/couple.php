@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'couple'  => 'Paar',
     'couples' => 'Paren',
@@ -16,4 +18,7 @@ return [
     'person2_id' => 'Tweede persoon',
 
     'team_id' => 'Team',
+
+    'overlap'              => 'Relatie-overlap gedetecteerd!',
+    'required_if_date_end' => 'De relatie moet als beëindigd worden gemarkeerd wanneer een einddatum is ingesteld.',
 ];

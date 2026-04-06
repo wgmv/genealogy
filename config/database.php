@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
 
 return [
@@ -37,6 +39,9 @@ return [
             'database'                => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix'                  => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'busy_timeout'            => null,
+            'journal_mode'            => null,
+            'synchronous'             => null,
         ],
 
         'mysql' => [
@@ -53,10 +58,19 @@ return [
             'prefix'         => '',
             'prefix_indexes' => true,
             'strict'         => true,
-            'engine'         => null,
+            'engine'         => 'InnoDB',
             'options'        => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                PDO::ATTR_EMULATE_PREPARES                                                                          => false,                            // Use native prepared statements
+                (PHP_VERSION_ID >= 80500 ? Pdo\Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY) => true,                             // Useful for large SELECTs
+                (PHP_VERSION_ID >= 80500 ? Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA)                         => env('MYSQL_ATTR_SSL_CA'),    // Optional SSL
             ]) : [],
+            'dump' => [
+                'dump_binary_path' => env('BACKUP_DUMP_PATH', null), // only the path, so without `mysqldump` or `pg_dump`
+                'use_single_transaction',
+                'timeout' => 60 * 5, // 5 minute timeout
+                // 'exclude_tables' => [],
+                // 'add_extra_option' => '--optionname=optionvalue', // for example '--column-statistics=0'
+            ],
         ],
 
         'mariadb' => [
@@ -73,9 +87,11 @@ return [
             'prefix'         => '',
             'prefix_indexes' => true,
             'strict'         => true,
-            'engine'         => null,
+            'engine'         => 'InnoDB',
             'options'        => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                PDO::ATTR_EMULATE_PREPARES                                                                          => false,                            // Use native prepared statements
+                (PHP_VERSION_ID >= 80500 ? Pdo\Mysql::ATTR_USE_BUFFERED_QUERY : PDO::MYSQL_ATTR_USE_BUFFERED_QUERY) => true,                             // Useful for large SELECTs
+                (PHP_VERSION_ID >= 80500 ? Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA)                         => env('MYSQL_ATTR_SSL_CA'),    // Optional SSL
             ]) : [],
         ],
 

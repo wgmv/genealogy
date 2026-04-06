@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -164,6 +166,7 @@ return [
     */
 
     'surname.required_without'   => 'Khi thêm một người MỚI, họ là bắt buộc.',
+    'sex.required_without'       => 'Khi thêm một người MỚI, phải xác định giới tính.',
     'person_id.required_without' => 'Khi thêm một người ĐÃ CÓ, hãy chọn một người.',
 
     /*

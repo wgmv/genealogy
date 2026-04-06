@@ -12,12 +12,12 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\RemovesTeamMembers;
 use Laravel\Jetstream\Events\TeamMemberRemoved;
 
-class RemoveTeamMember implements RemovesTeamMembers
+final class RemoveTeamMember implements RemovesTeamMembers
 {
     /**
      * Remove the team member from the given team.
      */
-    public function remove(User $user, Team $team, User $teamMember)
+    public function remove(User $user, Team $team, User $teamMember): void
     {
         $role = $teamMember->teamRole($team);
 
@@ -41,19 +41,19 @@ class RemoveTeamMember implements RemovesTeamMembers
                 ->withProperties([
                     'email' => $teamMember->email,
                     'name'  => $teamMember->name,
-                    'role'  => $role->name,
+                    'role'  => $role->name ?? 'N/A',
                 ])
                 ->log(__('team.member') . ' ' . __('app.event_removed'));
         });
         /* -------------------------------------------------------------------------------------------- */
 
-        return redirect('/teams/' . $team->id);
+        // return redirect('/teams/' . $team->id);
     }
 
     /**
      * Authorize that the user can remove the team member.
      */
-    protected function authorize(User $user, Team $team, User $teamMember): void
+    private function authorize(User $user, Team $team, User $teamMember): void
     {
         if (! Gate::forUser($user)->check('removeTeamMember', $team) &&
             $user->id !== $teamMember->id) {
@@ -64,7 +64,7 @@ class RemoveTeamMember implements RemovesTeamMembers
     /**
      * Ensure that the currently authenticated user does not own the team.
      */
-    protected function ensureUserDoesNotOwnTeam(User $teamMember, Team $team): void
+    private function ensureUserDoesNotOwnTeam(User $teamMember, Team $team): void
     {
         if ($teamMember->id === $team->owner->id) {
             throw ValidationException::withMessages([

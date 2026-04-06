@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Labels
     'biological'      => '生理性别',
@@ -67,6 +69,7 @@ return [
     'edit_person'       => '编辑人物',
     'edit_profile'      => '编辑信息',
     'edit_relationship' => '编辑关系',
+    'edit_events'       => '编辑事件',
 
     'delete_child'        => '删除孩子',
     'delete_person'       => '删除人物',
@@ -108,24 +111,38 @@ return [
     'cemetery_location' => '墓地位置',
 
     // files
-    'upload_files'     => '上传文件',
-    'files'            => '文件',
-    'files_saved'      => '[0] 没有文件保存|[1] 文件已保存|[2,*] 文件已保存',
-    'file'             => '文件',
-    'file_deleted'     => '文件已删除',
-    'update_files_tip' => '将文件拖放到此处',
+    'files'                  => '文件',
+    'files_saved'            => '[0] 没有文件保存|[1] 文件已保存|[2,*] 文件已保存',
+    'file'                   => '文件',
+    'file_deleted'           => '文件已删除',
+    'upload_files'           => '上传文件',
+    'upload_files_tip'       => '将文件拖放到此处 ...',
+    'no_valid_files_to_save' => '没有可保存的有效文件',
+    'files_invalid'          => '{1} :count 个文件无效并已跳过|[2,*] :count 个文件无效并已跳过',
+    'files_save_failed'      => '文件保存失败',
+
+    'upload_accept_types' => '允许 : :types',
+    'upload_max_size'     => '最大尺寸 : :max KB',
 
     // Photo
-    'avatar'            => '头像',
-    'edit_photos'       => '编辑照片',
-    'photo_deleted'     => '照片已删除',
-    'photo'             => '照片',
-    'photos'            => '相簿',
-    'photos_saved'      => '[0] 没有照片保存|[1] 照片已保存|[2,*] 照片已保存',
-    'photos_existing'   => '现有照片',
-    'set_primary'       => '设为主照片',
-    'upload_photos'     => '上传照片',
-    'update_photos_tip' => '将照片拖放到此处',
+    'avatar'                      => '头像',
+    'edit_photos'                 => '编辑照片',
+    'invalid_image_file_detected' => '检测到无效的图像文件',
+    'photo_delete_failed'         => '删除照片失败',
+    'photo_deleted'               => '照片已删除',
+    'photo'                       => '照片',
+    'photos'                      => '照片',
+    'photo_not_found'             => '未找到照片',
+    'photos_saved'                => '[0] 没有保存任何照片|[1] 照片已保存|[2,*] 已保存 :count 张照片',
+    'photos_save_failed'          => '部分照片保存失败',
+    'photos_existing'             => '已有照片',
+    'photo_set_primary'           => '设为主照片',
+    'photo_set_primary_failed'    => '设置主照片失败',
+    'photo_is_set_primary'        => '新照片已设为主照片',
+    'upload_photos'               => '上传照片',
+    'upload_photos_tip'           => '将新照片拖放到此处...',
+    'no_valid_photos_to_save'     => '没有可保存的有效照片',
+    'photos_invalid'              => '{1} :count 张照片无效并已跳过|[2,*] :count 张照片无效并已跳过',
 
     // Messages
     'yod_not_matching_dod' => '死亡年份必须与死亡日期匹配 (:value)。',
@@ -146,4 +163,23 @@ return [
 
     'not_found' => '没有找到此人',
     'use_tab'   => '使用选项卡',
+
+    'existing_person_linked_as_father'  => '现有人员已作为父亲关联。',
+    'new_person_linked_as_father'       => '新人员已作为父亲关联。',
+    'existing_person_linked_as_mother'  => '现有人员已作为母亲关联。',
+    'new_person_linked_as_mother'       => '新人员已作为母亲关联。',
+    'existing_person_linked_as_child'   => '现有人员已作为子女关联。',
+    'new_person_linked_as_child'        => '新人员已作为子女关联。',
+    'existing_person_linked_as_partner' => '现有人员已作为配偶关联。',
+    'new_person_linked_as_parther'      => '新人员已作为配偶关联。',
+
+    'family_caution_1' => '父亲和母亲只能用于生物学父母，因此必须是异性。',
+    'family_caution_2' => '父母可以是生物学父母，也可以是非生物学父母（同性或收养）。在这种情况下，只需将父亲和母亲留空。',
+
+    'parents_id_exclusive' => '父母是排他的。如果您设置了父母，则不能设置父亲或母亲。',
+
+    'search_similar'       => '搜索相似人物',
+    'similar_persons'      => '相似的现有人物',
+    'no_similar_persons'   => '尚未找到相似的人物 — 输入一些姓名并点击搜索按钮。',
+    'similar_persons_hint' => '为了避免重复添加同一个人，当您输入名字、姓氏、出生姓名或昵称并点击搜索按钮后，这里会显示相似的现有人物。',
 ];

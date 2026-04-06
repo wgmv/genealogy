@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'agree'                     => 'J\'accepte les :terms_of_service et :privacy_policy',
     'already_registered'        => 'Déjà inscrit',
@@ -51,4 +53,7 @@ return [
     'link_send'                 => 'Un nouveau lien de vérification a été envoyé à l\'adresse e-mail que vous avez fournie dans les paramètres de votre profil.',
     'resend'                    => 'Renvoyer l\'e-mail de vérification',
     'edit_profile'              => 'Modifier le profil',
+
+    'no_permissions' => 'Vous n’avez aucune autorisation.',
+    'role_unknown'   => 'Le rôle est inconnu.',
 ];

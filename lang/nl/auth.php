@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -82,5 +84,8 @@ return [
     'link_send'    => 'Er is een nieuwe verificatielink verzonden naar het e-mailadres dat u in uw profielinstellingen heeft opgegeven.',
     'resend'       => 'Verificatie-e-mail opnieuw verzenden',
     'edit_profile' => 'Bewerk profiel',
+
+    'no_permissions' => 'U heeft geen rechten.',
+    'role_unknown'   => 'Rol is onbekend.',
 
 ];

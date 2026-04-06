@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'all_teams'     => '所有家族',
     'cancel'        => '取消',
@@ -18,6 +20,17 @@ return [
     'team_personal' => '我的家族',
     'teams'         => '家族',
     'users'         => '用户',
+
+    'team_overview'                   => '团队概览',
+    'click_to_view_members'           => '点击查看所有团队成员',
+    'click_to_view_persons'           => '点击查看所有家庭成员',
+    'click_to_view_couples'           => '点击查看所有关系',
+    'no_results_found'                => '未找到结果',
+    'try_adjusting_your_search_terms' => '尝试调整您的搜索词',
+    'showing'                         => '显示',
+    'of'                              => '的',
+    'reset_filter'                    => '重置筛选',
+    'filtered_by'                     => '筛选条件',
 
     // Messages
     'team_details'    => '创建家族',
@@ -52,10 +65,10 @@ return [
     'user_already_invited' => '此用户已经被邀请加入家族。',
     'user_not_leave'       => '您不能离开您创建的家族。',
 
-    'delete_team_meassage' => '永久删除此家族。',
-    'delete_team_text'     => '一旦家族被删除，所有资源和数据将被永久删除。在删除此家族之前，请下载您希望保留的任何数据或信息。',
-    'delete_team_sure'     => '您确定要删除此家族吗？一旦家族被删除，所有资源和数据将被永久删除。',
-    'can_not_delete'       => '无法删除该团队，因为它包含有效数据',
+    'delete_team_message' => '永久删除此家族。',
+    'delete_team_text'    => '一旦家族被删除，所有资源和数据将被永久删除。在删除此家族之前，请下载您希望保留的任何数据或信息。',
+    'delete_team_sure'    => '您确定要删除此家族吗？一旦家族被删除，所有资源和数据将被永久删除。',
+    'can_not_delete'      => '无法删除该团队，因为它包含有效数据',
 
     'been_invited'               => '您已被邀请加入 :team 家族！',
     'no_account'                 => '如果您没有帐户，可以通过点击下面的按钮创建一个。创建帐户后，您可以点击此电子邮件中的邀请接受按钮以接受家族邀请：',
@@ -66,6 +79,7 @@ return [
     'discard'                    => '如果您没有预期收到此家族的邀请，可以丢弃此电子邮件。',
 
     'transfer'           => '转移',
+    'transfer_failed'    => '传输失败',
     'transfer_ownership' => '转让所有权',
     'transfer_message'   => '将该团队的所有权转让给另一个团队成员。',
     'select_new_owner'   => '选择现有团队成员作为新团队所有者。',

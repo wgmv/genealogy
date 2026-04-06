@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class UserFactory extends Factory
+final class UserFactory extends Factory
 {
     /**
      * The current password being used by the factory.
@@ -29,9 +30,9 @@ class UserFactory extends Factory
         return [
             'firstname'                 => $this->faker->firstName(),
             'surname'                   => $this->faker->lastName(),
-            'email'                     => fake()->unique()->safeEmail(),
+            'email'                     => $this->faker->unique()->safeEmail(),
             'email_verified_at'         => now(),
-            'password'                  => static::$password ??= Hash::make('password'),
+            'password'                  => self::$password ??= 'password',
             'two_factor_secret'         => null,
             'two_factor_recovery_codes' => null,
             'remember_token'            => Str::random(10),
@@ -48,7 +49,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'email_verified_at' => null,
         ]);
     }
@@ -64,7 +65,7 @@ class UserFactory extends Factory
 
         return $this->has(
             Team::factory()
-                ->state(fn (array $attributes, User $user) => [
+                ->state(fn (array $attributes, User $user): array => [
                     'name'          => 'Team ' . $user->name,
                     'description'   => 'Personal Team',
                     'user_id'       => $user->id,
@@ -72,6 +73,12 @@ class UserFactory extends Factory
                 ])
                 ->when(is_callable($callback), $callback),
             'ownedTeams'
-        );
+        )->afterCreating(function (User $user): void {
+            if ($user->ownedTeams()->exists()) {
+                $user->forceFill([
+                    'current_team_id' => $user->ownedTeams()->first()->id,
+                ])->save();
+            }
+        });
     }
 }

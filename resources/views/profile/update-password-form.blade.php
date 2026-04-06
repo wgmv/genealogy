@@ -32,8 +32,8 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-action-message class="p-3 mr-3 text-xs rounded bg-success-200 text-emerald-600" role="alert" on="saved">
-            {{ __('app.saved.') }}
+        <x-action-message class="p-3 mr-3 text-xs rounded-sm bg-emerald-200 text-emerald-600" role="alert" on="saved">
+            {{ __('app.saved') }}
         </x-action-message>
 
         <x-ts-button type="submit" color="primary">

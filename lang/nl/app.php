@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Menus
     'about'            => 'Over',
@@ -15,24 +17,34 @@ return [
     'log_viewer'       => 'Log Viewer',
 
     // Labels
-    'api_tokens'        => 'API tokens',
-    'attention'         => 'Aandacht',
+    'all'               => 'Alles',
+    'filter'            => 'Filter',
+    'api_tokens'        => 'API-tokens',
+    'attention'         => 'Let op',
+    'circa'             => 'ca.',
     'contact'           => 'Contact',
     'datasheet'         => 'Gegevensblad',
+    'date'              => 'Datum',
     'death'             => 'Overlijden',
     'documentation'     => 'Documentatie',
-    'family_chart'      => 'Familie kaart',
-    'female'            => 'Vrouwelijk',
+    'error'             => 'Fout',
+    'warning'           => 'Waarschuwing',
+    'family_chart'      => 'Stamboom',
+    'female'            => 'Vrouw',
     'history'           => 'Geschiedenis',
-    'male'              => 'Mannelijk',
-    'manage_account'    => 'Accountbeheer',
+    'male'              => 'Man',
+    'manage_account'    => 'Account beheren',
     'my_profile'        => 'Mijn profiel',
     'nothing_available' => 'Niets beschikbaar',
     'nothing_found'     => 'Niets gevonden',
-    'nothing_recorded'  => 'Nog niets geregistreerd.',
-    'search'            => 'Zoek',
+    'nothing_recorded'  => 'Nog niets vastgelegd.',
+    'place'             => 'Plaats',
+    'search'            => 'Zoeken',
+    'timeline'          => 'Tijdlijn',
+    'year'              => 'Jaar',
     'yes'               => 'Ja',
-    'no'                => 'Neen',
+    'no'                => 'Nee',
+    'unknown'           => 'Onbekend',
 
     'created_at' => 'Aangemaakt op',
     'updated_at' => 'Gewijzigd op',
@@ -50,10 +62,13 @@ return [
     // Actions
     'add'     => 'Toevoegen',
     'cancel'  => 'Annuleren',
+    'clear'   => 'Wissen',
     'create'  => 'Aanmaken',
     'created' => 'Aangemaakt',
+    'update'  => 'Bijwerken',
 
-    'download' => 'Download',
+    'download'    => 'Download',
+    'downloading' => 'Het downloaden is gestart.',
 
     'move_down' => 'Naar beneden',
     'move_up'   => 'Naar boven',
@@ -64,11 +79,14 @@ return [
 
     'save'   => 'Bewaren',
     'saved'  => 'Bewaard',
+    'saving' => 'Opslaan',
     'select' => 'Selecteer',
     'show'   => 'Tonen',
 
     // Deletion confirm attributes
     'abort_no'            => 'Neen, afbreken',
+    'are_you_sure'        => 'Bent u zeker?',
+    'confirm'             => 'Bevestigen',
     'delete'              => 'Verwijder',
     'deleted'             => 'is verwijderd',
     'delete_yes'          => 'Ja, verwijder',
@@ -110,7 +128,7 @@ return [
 
     'people_search_help_1' => 'Het systeem zoekt <b class="text-emerald-600">elk woord</b> in het zoekvak op in de attributen <b class="text-emerald-600">achternaam</b>, <b class="text-emerald-600">voornaam</b>, <b class="text-emerald-600">geboortenaam</b> en <b class="text-emerald-600">bijnaam</b>.',
     'people_search_help_2' => 'Begin de zoekreeks met <b class="text-emerald-600">%</b> als je delen van namen wilt doorzoeken, bijvoorbeeld : <b class="text-emerald-600">%Jr</b>.<br/>Houd er rekening mee dat dit soort zoekopdrachten langzamer zijn.',
-    'people_search_help_3' => 'Als een achternaam, voornaam, geboortenaam of bijnaam <b class="text-emerald-600">spaties</b> bevat, plaats de naam dan tussen dubbele aanhalingstekens,<br/>bijvoorbeeld : <b class="text-emerald-600">"John Jr." Kennedy</b>.',
+    'people_search_help_3' => 'Als een achternaam, voornaam, geboortenaam of bijnaam <b class="text-emerald-600">spaties</b> bevat, plaats de naam dan tussen dubbele aanhalingstekens,<br/>bijvoorbeeld : <b class="text-emerald-600">"John Fitzgerald Jr." Kennedy</b>.',
 
     'unauthorized_access' => 'Onbevoegde toegang.',
 
@@ -131,4 +149,19 @@ return [
 
     'under_construction' => 'In opbouw',
     'demonstration'      => 'Demonstratie',
+
+    'password_generator'   => 'Wachtwoordgenerator',
+    'password_length'      => 'Wachtwoordlengte',
+    'use_numbers'          => 'Gebruik cijfers',
+    'use_symbols'          => 'Gebruik symbolen',
+    'generate'             => 'Genereren',
+    'generating'           => 'Wordt gegenereerd',
+    'copy_to_clipboard'    => 'Kopiëren naar klembord',
+    'copied_to_clipboard'  => 'Gekopieerd naar klembord!',
+    'password_very_weak'   => 'Zeer zwak',
+    'password_weak'        => 'Zwak',
+    'password_moderate'    => 'Matig',
+    'password_strong'      => 'Sterk',
+    'password_very_strong' => 'Zeer sterk',
+    'check_breach'         => 'Controleer of je e-mailadres in een datalek voorkomt',
 ];

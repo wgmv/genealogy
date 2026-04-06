@@ -7,13 +7,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Jetstream\TeamInvitation as JetstreamTeamInvitation;
+use Override;
 
-class TeamInvitation extends JetstreamTeamInvitation
+final class TeamInvitation extends JetstreamTeamInvitation
 {
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'email',
@@ -22,9 +23,13 @@ class TeamInvitation extends JetstreamTeamInvitation
 
     /**
      * Get the team that the invitation belongs to.
+     *
+     * @return BelongsTo<Team, $this>
      */
+    #[Override]
     public function team(): BelongsTo
     {
+        /** @phpstan-ignore-next-line */
         return $this->belongsTo(Jetstream::teamModel());
     }
 }

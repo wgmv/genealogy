@@ -6,8 +6,11 @@ namespace App\Providers;
 
 use App\Models\Setting;
 use Carbon\CarbonImmutable;
+use Carbon\CarbonInterval;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -16,13 +19,15 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
+use Override;
 use TallStackUi\Facades\TallStackUi;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
+    #[Override]
     public function register(): void
     {
         //
@@ -33,32 +38,66 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // ------------------------------------------------------------------------------
         // Configure application settings and services
+        // ------------------------------------------------------------------------------
         $this->configureUrl();
         $this->configureStrictMode();
         $this->configureLogViewer();
-        $this->configureTallStackUiPersonalization();
         $this->configureDates();
+        $this->configureTallStackUiPersonalization();
 
         $this->addAboutCommandDetails();
 
+        if (app()->isLocal()) {
+            RequestException::dontTruncate();
+        }
+
+        // ------------------------------------------------------------------------------
+        // Automatically eager load relations when needed for all models
+        // ------------------------------------------------------------------------------
+        Model::automaticallyEagerLoadRelationships();
+
+        // ------------------------------------------------------------------------------
+        // This will prevent any destructive commands from being executed
+        // in production environments, such as dropping tables or truncating data.
+        // This is a safety measure to prevent accidental data loss.
+        // Uncomment the line below to enable this feature.
+        // ------------------------------------------------------------------------------
+        // DB::prohibitDestructiveCommands(app()->isProduction());
+
+        // ------------------------------------------------------------------------------
+        // Enable or disable logging based on application settings
+        // ------------------------------------------------------------------------------
         if ($this->isDatabaseOnline() && Schema::hasTable('settings')) {
             // Cache the applications settings
-            $this->app->singleton('settings', function () {
-                return Cache::rememberForever('settings', function () {
-                    return Setting::all()->pluck('value', 'key');
-                });
-            });
+            $this->app->singleton('settings', fn () => Cache::rememberForever('settings', fn () => Setting::pluck('value', 'key')));
 
-            // Enable or disable logging based on application settings
             $this->logAllQueries();
             $this->LogAllQueriesSlow();
             $this->logAllQueriesNplusone();
         }
+        // ------------------------------------------------------------------------------
     }
 
     /**
-     * Enforce HTTPS in production.
+     * Check if the database connection is available.
+     */
+    protected function isDatabaseOnline(): bool
+    {
+        try {
+            DB::connection()->getPdo();
+
+            return true;
+        } catch (Exception) {
+            // Log the exception if needed for debugging
+            // Log::error('Database connection error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Enforce HTTPS (only in production).
      */
     private function configureUrl(): void
     {
@@ -66,7 +105,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Use Strict Mode (not in production).
+     * Use Strict Mode (only on local).
      *
      * 1. Prevent Lazy Loading
      * 2. Prevent Silently Discarding Attributes
@@ -75,7 +114,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function configureStrictMode(): void
     {
-        Model::shouldBeStrict();
+        Model::shouldBeStrict(app()->isLocal());
     }
 
     /**
@@ -84,7 +123,15 @@ class AppServiceProvider extends ServiceProvider
     private function configureLogViewer(): void
     {
         LogViewer::auth(function ($request) {
-            return $request->user()->is_developer;
+            $user = $request->user();
+
+            // If user is not authenticated, deny access
+            if (! $user) {
+                return false;
+            }
+
+            // Check if user has is_developer property and it's true
+            return $user->is_developer ?? false;
         });
     }
 
@@ -95,64 +142,76 @@ class AppServiceProvider extends ServiceProvider
      */
     private function configureTallStackUiPersonalization(): void
     {
-        $ui = TallStackUi::personalize();
+        $ui = TallStackUi::customize();
 
-        // Alerts
-        $ui->alert()->block('wrapper')->replace('rounded-lg', 'rounded');
+        $ui->alert()->block('wrapper')->replace('rounded-lg', 'rounded-sm');
 
-        // Badges
-        $ui->badge()->block('wrapper.class')->replace('px-2', 'px-1');
-
-        // Cards
         $ui->card()
             ->block('wrapper.first')->replace('gap-4', 'gap-2')
-            ->block('wrapper.second')->replace('rounded-lg', 'rounded')
-            ->block('wrapper.second')->replace('dark:bg-dark-700', 'dark:bg-neutral-700')
-            ->block('header.wrapper', 'dark:border-b-neutral-600 flex items-center justify-between border-b border-b-gray-100 p-2')
-            ->block('footer.wrapper', 'text-secondary-700 dark:text-dark-300 dark:border-t-neutral-600 rounded rounded-t-none border-t p-2')
-            ->block('footer.text', 'flex items-center justify-end gap-2');
+            ->block('wrapper.second')->replace([
+                'dark:bg-dark-700' => 'dark:bg-neutral-700',
+                'rounded-lg'       => 'rounded-sm',
+            ])
+            ->block('header.wrapper.border')->replace('dark:border-b-dark-600', 'dark:border-b-neutral-600')
+            ->block('footer.wrapper')->replace([
+                'dark:border-t-dark-600' => 'dark:border-t-neutral-600',
+                'rounded-lg'             => 'rounded-sm',
+            ]);
 
-        // Dropdowns
+        $ui->carousel()
+            ->block('images.base')->append('rounded-sm');
+
         $ui->dropdown()
-            ->block('floating')->replace('rounded-lg', 'rounded')
-            ->block('width')->replace('w-56', 'w-64')
+            ->block('floating.default')->replace('rounded-lg', 'rounded-sm')
+            ->block('floating.class')->replace('w-56', 'w-auto')
             ->block('action.icon')->replace('text-gray-400', 'text-primary-500 dark:text-primary-300');
 
-        // Forms
         $ui->form('input')
-            ->block('input.wrapper')->replace('rounded-md', 'rounded')
-            ->block('input.base')->replace('rounded-md', 'rounded');
+            ->block('input.wrapper')->replace('rounded-md', 'rounded-sm')
+            ->block('input.base')->replace('rounded-md', 'rounded-sm')
+            ->block('input.color.background')->replace('dark:bg-dark-800', 'dark:bg-dark-950');
 
         $ui->form('textarea')
-            ->block('input.wrapper')->replace('rounded-md', 'rounded')
-            ->block('input.base')->replace('rounded-md', 'rounded');
+            ->block('input.wrapper')->replace('rounded-md', 'rounded-sm')
+            ->block('input.base')->replace('rounded-md', 'rounded-sm')
+            ->block('input.color.background')->replace('dark:bg-dark-800', 'dark:bg-dark-950');
 
         $ui->form('label')
-            ->block('text')->replace('text-gray-600', 'text-gray-700')
-            ->block('text')->replace('dark:text-dark-400', 'dark:text-dark-500');
+            ->block('text')->replace([
+                'text-gray-600'      => 'text-gray-700',
+                'dark:text-dark-400' => 'dark:text-neutral-500',
+            ]);
 
-        // Modals
         $ui->modal()
-            ->block('wrapper.first')->replace('bg-opacity-50', 'bg-opacity-20')
-            ->block('wrapper.fourth')->replace('dark:bg-dark-700', 'dark:bg-dark-900')
-            ->block('wrapper.fourth')->replace('rounded-xl', 'rounded');
+            ->block('wrapper.first')->replace('bg-gray-400/75', 'bg-gray-400/10')
+            ->block('wrapper.fourth')->replace([
+                'dark:bg-dark-700' => 'dark:bg-gray-900',
+                'rounded-t-xl'     => 'rounded-t-sm',
+            ]);
 
-        // Slides
         $ui->slide()
-            ->block('wrapper.first')->replace('bg-opacity-50', 'bg-opacity-20')
-            ->block('wrapper.fifth')->replace('dark:bg-dark-700', 'dark:bg-dark-900')
+            ->block('wrapper.first')->replace('bg-gray-400/75', 'bg-gray-400/10')
+            ->block('wrapper.fifth')->replace('dark:bg-dark-700', 'dark:bg-gray-900')
+            ->block('body')->replace('dark:text-dark-300', 'dark:text-neutral-300')
             ->block('footer')->append('dark:text-secondary-600');
 
-        // Tabs
         $ui->tab()
-            ->block('base.wrapper')->replace('rounded-lg', 'rounded')
-            ->block('base.wrapper')->replace('dark:bg-dark-700', 'dark:bg-neutral-700')
+            ->block('base.wrapper')->replace([
+                'dark:bg-dark-700' => 'dark:bg-neutral-700',
+                'rounded-lg'       => 'rounded-sm',
+            ])
+            ->block('base.content')->remove('p-4')
             ->block('item.select')->replace('dark:text-dark-300', 'dark:text-neutral-50');
 
-        // Tables
         $ui->table()
-            ->block('wrapper')->replace('rounded-lg', 'rounded')
+            ->block('wrapper')->replace('rounded-lg', 'rounded-sm')
             ->block('table.td')->replace('py-4', 'py-2');
+
+        $ui->select('styled')
+            ->block('input.wrapper.base')->replace([
+                'dark:bg-dark-800' => 'dark:bg-dark-950',
+                'rounded-md'       => 'rounded-sm',
+            ]);
     }
 
     /**
@@ -192,11 +251,13 @@ class AppServiceProvider extends ServiceProvider
     private function LogAllQueriesSlow(): void
     {
         if (settings('log_all_queries_slow')) {
-            DB::listen(function ($query) {
-                if ($query->time >= settings('log_all_queries_slow_threshold')) {
+            DB::listen(function ($query): void {
+                if ($query->time > (int) settings('log_all_queries_slow_threshold')) {
                     Log::warning('An individual database query exceeded ' . settings('log_all_queries_slow_threshold') . ' ms.', [
-                        'sql' => $query->sql,
-                        'raw' => $query->toRawSQL(),
+                        'sql'       => $query->sql,
+                        'raw'       => $query->toRawSQL(),
+                        'time'      => $query->time,
+                        'formatted' => CarbonInterval::milliseconds($query->time)->cascade()->forHumans(['short' => true, 'parts' => 3, 'join' => true]),
                     ]);
                 }
             });
@@ -209,29 +270,13 @@ class AppServiceProvider extends ServiceProvider
     private function logAllQueriesNplusone(): void
     {
         if (settings('log_all_queries_n+1')) {
-            Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
+            Model::handleLazyLoadingViolationUsing(function ($model, $relation): void {
                 Log::warning(sprintf(
                     'N+1 Query detected in model %s on relation %s.',
-                    get_class($model),
+                    $model::class,
                     $relation
                 ));
             });
-        }
-    }
-
-    /**
-     * Check if the database connection is available.
-     */
-    protected function isDatabaseOnline(): bool
-    {
-        try {
-            DB::connection()->getPdo();
-
-            return true;
-        } catch (\Exception $e) {
-            // Log the exception if needed for debugging
-            // Log::error('Database connection error: ' . $e->getMessage());
-            return false;
         }
     }
 }

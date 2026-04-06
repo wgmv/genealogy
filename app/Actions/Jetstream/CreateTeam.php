@@ -13,7 +13,7 @@ use Laravel\Jetstream\Contracts\CreatesTeams;
 use Laravel\Jetstream\Events\AddingTeam;
 use Laravel\Jetstream\Jetstream;
 
-class CreateTeam implements CreatesTeams
+final class CreateTeam implements CreatesTeams
 {
     /**
      * Validate and create a new team for the given user.
@@ -31,19 +31,20 @@ class CreateTeam implements CreatesTeams
 
         AddingTeam::dispatch($user);
 
-        $user->switchTeam($team = $user->ownedTeams()->create([
+        /** @var Team $team */
+        $team = $user->ownedTeams()->create([
             'name'          => $input['name'],
             'description'   => $input['description'] ?? null,
             'personal_team' => false,
-        ]));
+        ]);
+
+        $user->switchTeam($team);
 
         // -----------------------------------------------------------------------
-        // create team photo folders
+        // create team photo folder
         // -----------------------------------------------------------------------
-        foreach (config('app.photo_folders') as $folder) {
-            if (! Storage::disk($folder)->exists($team->id)) {
-                Storage::disk($folder)->makeDirectory($team->id);
-            }
+        if (! Storage::disk('photos')->exists((string) $team->id)) {
+            Storage::disk('photos')->makeDirectory((string) $team->id);
         }
         // -----------------------------------------------------------------------
 
